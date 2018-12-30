@@ -3,8 +3,8 @@ from .models import Employee
 from company.models import Employee
 from .models import Company
 
-admin.site.register(Employee)
-
 
 admin.site.register(Company)
+admin.site.register(Employee)
+
 
