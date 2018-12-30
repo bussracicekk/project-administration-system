@@ -8,3 +8,6 @@ class Company(models.Model):
     c_email = models.TextField(verbose_name='Company E-mail')
     c_address =  models.TextField(verbose_name='Company Address')
     c_password =  models.TextField(max_length=10,  verbose_name='Company Password')
+
+    def __str__(self):
+        return self.c_name
