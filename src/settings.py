@@ -39,11 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'company',
-<<<<<<< HEAD
     'customer',
-=======
->>>>>>> 8bf9ffe4593b75545ebabd4a4926273fe50c088e
-]
+    ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
