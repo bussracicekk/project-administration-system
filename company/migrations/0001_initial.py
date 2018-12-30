@@ -17,10 +17,10 @@ class Migration(migrations.Migration):
             name='Company',
             fields=[
                 ('c_id', models.IntegerField(primary_key=True, serialize=False, unique=True)),
-                ('c_name', models.CharField(max_length=120)),
-                ('c_email', models.TextField()),
+                ('c_name', models.CharField(max_length=30)),
+                ('c_email', models.CharField(max_length=30)),
                 ('c_address', models.TextField()),
-                ('c_password', models.TextField(max_length=10)),
+                ('c_password', models.CharField(max_length=6)),
             ],
         ),
     ]
