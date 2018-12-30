@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+    {% for employee in employees %}
+        {{ employee.e_id }}<br>
+        {{ employee.e_name }}<br>
+        {{ employee.e_email }}<br>
+        {{ employee.e_phone }}<br>
+        {{ employee.e_degree }}<br>
+
+    {% endfor %}
+
+</body>
+</html>
