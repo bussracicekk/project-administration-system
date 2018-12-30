@@ -20,7 +20,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/1.10/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'xl5z#@)^4+qltoi_^&1=^nr5ehsyr-xw1!d@2vtmg0c2r1d!u6'
+SECRET_KEY = 'rnfl*^l%2l05apo!z_pwt)qyb6jlm_5u3f4us+d-x(9*43to-!'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -37,6 +37,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    'company',
+<<<<<<< HEAD
+    'customer',
+=======
+>>>>>>> 8bf9ffe4593b75545ebabd4a4926273fe50c088e
 ]
 
 MIDDLEWARE = [
@@ -78,7 +84,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'mydatabase',
         'USER': 'postgres',
-        'PASSWORD': '****',
+        'PASSWORD': '1071',
         'HOST': '127.0.0.1',
         'PORT': '5432',
     }
@@ -107,7 +113,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/1.10/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'tr'
 
 TIME_ZONE = 'UTC'
 
