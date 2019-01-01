@@ -1,4 +1,4 @@
-from django.shortcuts import render, HttpResponse, get_object_or_404
+from django.shortcuts import render, HttpResponse, get_object_or_404, HttpResponseRedirect
 from .models import Employee
 from .forms import EmployeeForm
 
@@ -29,9 +29,23 @@ def employee_create(request):
 
     form = EmployeeForm(request.POST or None)
     if form.is_valid():
-        form.save()
+        employees=form.save()
+        return HttpResponseRedirect(employees.get_absolute_url())
 
     context = {
         'form': form,
     }
     return render(request, 'employee/form.html', context)
+
+
+def employee_update(request, id):
+    employees = get_object_or_404(Employee, e_id=id)
+    form = EmployeeForm(request.POST or None, instance=employees)
+    if form.is_valid():
+        form.save()
+        return HttpResponseRedirect(employees.get_absolute_url())
+
+    context = {
+        'form': form,
+    }
+    return render(request, 'employee/update.html', context)
