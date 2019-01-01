@@ -1,4 +1,4 @@
-from django.shortcuts import render, HttpResponse, get_object_or_404, HttpResponseRedirect
+from django.shortcuts import render, HttpResponse, get_object_or_404, HttpResponseRedirect, redirect
 from .models import Employee
 from .forms import EmployeeForm
 
@@ -49,3 +49,9 @@ def employee_update(request, id):
         'form': form,
     }
     return render(request, 'employee/update.html', context)
+
+
+def employee_delete(request, id):
+    employees = get_object_or_404(Employee, e_id=id)
+    employees.delete()
+    return redirect('employee:index')
