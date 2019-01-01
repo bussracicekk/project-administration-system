@@ -9,7 +9,6 @@ class Company(models.Model):
     c_phone = models.CharField(max_length = 20, verbose_name = 'Company Phone')
     c_password = models.CharField(max_length=6,  verbose_name='Company Password')
 
-
 class Department(models.Model):
     d_id = models.IntegerField(unique=True, primary_key=True, verbose_name='Department ID')
     d_name = models.CharField(max_length=30, verbose_name='Department Name')
@@ -44,6 +43,10 @@ class Employee(models.Model):
     e_phone = models.IntegerField(verbose_name='Phone')
     e_degree = models.IntegerField(verbose_name='Degree')
     e_salary = models.IntegerField(verbose_name='Salary')
+
+class Other(models.Model):
+    o_studyproject = models.ForeignKey(Project,verbose_name = 'Works Project ID')
+    eOther = models.ForeignKey(Employee, unique=True, primary_key=True, serialize=False, verbose_name='Employee')
 
 class Head(models.Model):
     eHead = models.ForeignKey(Employee, unique=True, primary_key=True, serialize=False, verbose_name='Employee')
