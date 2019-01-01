@@ -43,6 +43,8 @@ class Employee(models.Model):
     e_phone = models.IntegerField(verbose_name='Phone')
     e_degree = models.IntegerField(verbose_name='Degree')
     e_salary = models.IntegerField(verbose_name='Salary')
+    eDepartment = models.ForeignKey(Department, verbose_name="Department ID")
+    eCompany = models.ForeignKey(Company, verbose_name="Company ID")
 
     def __str__(self):
         return self.e_name
