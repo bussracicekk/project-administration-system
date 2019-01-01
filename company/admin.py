@@ -7,6 +7,7 @@ from .models import Project
 from .models import Issue
 from .models import Subtask
 from .models import Other
+
 #from company.models import Employee
 
 admin.site.register(Company)
