@@ -27,8 +27,8 @@ class Department(models.Model):
     def __str__(self):
         return self.d_name
 
-    def get_absolute_url(self):
-        return reverse('department:detail', kwargs={'id': self.d_id})
+    def get_department_url(self):
+        return reverse('app:detailD', kwargs={'id': self.d_id})
 
 
 class Employee(models.Model):
@@ -45,7 +45,7 @@ class Employee(models.Model):
         return self.e_name
 
     def get_absolute_url(self):
-        return reverse('employee:detail', kwargs={'id': self.e_id})
+        return reverse('app:detail', kwargs={'id': self.e_id})
 
 
 class Project(models.Model):
