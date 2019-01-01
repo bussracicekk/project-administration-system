@@ -7,11 +7,12 @@
 <body>
 
     {% for employee in employees %}
-        {{ employee.e_id }}<br>
-        {{ employee.e_name }}<br>
-        {{ employee.e_email }}<br>
-        {{ employee.e_phone }}<br>
-        {{ employee.e_degree }}<br>
+        ID: {{ employee.e_id }}</br>
+        <a href="{{ employee.get_absolute_url }}"> Name: {{ employee.e_name }} </a><br>
+        Surname: {{ employee.e_surname }}<br>
+        Email: {{ employee.e_email }}<br>
+        Phone: {{ employee.e_phone }}<br>
+        Degree: {{ employee.e_degree }}<br>
 
     {% endfor %}
 
