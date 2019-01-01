@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+     {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+
+    ID: {{ department.d_id }}<br>
+    Name: {{ department.d_name }} <br>
+    Capacity: {{ department.d_capacity }}<br>
+    Password: {{ department.d_password }}<br>
+    Company: {{ department.dCompany }}<br>
+
+</body>
+</html>
