@@ -8,6 +8,7 @@ from .models import Issue
 from .models import Subtask
 from .models import Other
 from .models import Helps
+from .models import ForeignCompany
 #from company.models import Employee
 
 admin.site.register(Company)
@@ -19,6 +20,6 @@ admin.site.register(Issue)
 admin.site.register(Subtask)
 admin.site.register(Other)
 admin.site.register(Helps)
-
+admin.site.register(ForeignCompany)
 
 
