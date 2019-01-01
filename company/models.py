@@ -11,6 +11,9 @@ class Company(models.Model):
     c_phone = models.CharField(max_length=20, verbose_name = 'Company Phone')
     c_password = models.CharField(max_length=6,  verbose_name='Company Password')
 
+    def __str__(self):
+        return self.c_name
+
 
 class ForeignCompany(Company):
     f_rating = models.IntegerField(verbose_name='Foreign Company Rating')
