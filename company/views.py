@@ -1,6 +1,8 @@
 from django.shortcuts import render, HttpResponse, get_object_or_404, HttpResponseRedirect, redirect
 from .models import Employee
 from .forms import EmployeeForm
+from django.contrib import messages
+
 
 def employee_index(request):
     employees = Employee.objects.all()
@@ -29,7 +31,8 @@ def employee_create(request):
 
     form = EmployeeForm(request.POST or None)
     if form.is_valid():
-        employees=form.save()
+        employees = form.save()
+        messages.success(request, "Employee is created, successfully!")
         return HttpResponseRedirect(employees.get_absolute_url())
 
     context = {
@@ -43,6 +46,7 @@ def employee_update(request, id):
     form = EmployeeForm(request.POST or None, instance=employees)
     if form.is_valid():
         form.save()
+        messages.success(request, "Employee is updated, successfully!")
         return HttpResponseRedirect(employees.get_absolute_url())
 
     context = {
