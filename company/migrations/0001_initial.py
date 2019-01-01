@@ -40,6 +40,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('e_id', models.IntegerField(primary_key=True, serialize=False, unique=True, verbose_name='Employee ID')),
                 ('e_name', models.CharField(max_length=30, verbose_name='Name')),
+                ('e_surname', models.CharField(max_length=30, verbose_name='Surname')),
                 ('e_password', models.CharField(max_length=6, verbose_name='Password')),
                 ('e_email', models.CharField(max_length=30, verbose_name='Email')),
                 ('e_phone', models.IntegerField(verbose_name='Phone')),
