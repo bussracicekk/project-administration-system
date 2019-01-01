@@ -33,6 +33,14 @@ class Project(models.Model):
     p_situation = models.CharField(max_length = 20 , verbose_name= 'Project Situation')
     dProject = models.ForeignKey(Department, verbose_name = 'Deparment ID')
 
+class Helps(models.Model):
+    h_price = models.IntegerField(verbose_name='Project Price')
+    h_type = models.CharField(max_length=50, verbose_name='Help Type')
+    h_timestart = models.DateTimeField(verbose_name='Help Time Start')
+    h_timeend =  models.DateTimeField(verbose_name='Help Time End')
+    pHelps = models.ForeignKey(Project, verbose_name='Which Project Helps (ID)')
+    cHelps =  models.ForeignKey(Company, verbose_name='Which Company Helps (ID)')
+
 class Other(models.Model):
     o_studyproject = models.ForeignKey(Project,verbose_name = 'Works Project ID')
     eOther = models.ForeignKey(Employee, unique=True, primary_key=True, serialize=False, verbose_name='Employee')
