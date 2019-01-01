@@ -1,6 +1,6 @@
 from django import forms
 from .models import Employee
-
+from .models import Department
 
 class EmployeeForm(forms.ModelForm):
 
@@ -15,4 +15,15 @@ class EmployeeForm(forms.ModelForm):
             'e_phone',
             'e_degree',
             'e_salary',
+        ]
+class DepartmentForm(forms.ModelForm):
+
+    class Meta:
+        model = Department
+        fields = [
+            'd_id',
+            'd_name',
+            'd_capacity',
+            'd_password',
+            'dCompany',
         ]
