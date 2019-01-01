@@ -46,6 +46,8 @@ class Migration(migrations.Migration):
                 ('e_phone', models.IntegerField(verbose_name='Phone')),
                 ('e_degree', models.IntegerField(verbose_name='Degree')),
                 ('e_salary', models.IntegerField(verbose_name='Salary')),
+                ('eDepartment', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='company.Department', verbose_name='Department ID')),
+                ('eCompany', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='company.Company', verbose_name='Company ID')),
             ],
         ),
         migrations.CreateModel(
