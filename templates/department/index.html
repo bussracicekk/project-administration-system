@@ -8,10 +8,9 @@
 
     {% for department in departments %}
         ID: {{ department.d_id }}</br>
-        <a href="{{ department.get_absolute_url }}"> Name: {{ department.d_name }} </a><br>
-        Capacity: {{ department.d_capacity }}<br>
-        Password: {{ department.d_password }}<br>
+        <a href="{{ department.get_department_url }}"> Name: {{ department.d_name }} </a><br>
         Company: {{ department.dCompany }}<br>
+        *******************************<br>
 
     {% endfor %}
 
