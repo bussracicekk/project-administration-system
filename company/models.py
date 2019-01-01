@@ -24,6 +24,12 @@ class Department(models.Model):
     d_password = models.CharField(max_length=6, verbose_name='Department Password')
     dCompany = models.ForeignKey(Company, verbose_name='Company id')
 
+    def __str__(self):
+        return self.d_name
+
+    def get_absolute_url(self):
+        return reverse('department:detail', kwargs={'id': self.d_id})
+
 
 class Employee(models.Model):
     e_id = models.IntegerField(unique=True, primary_key=True, serialize=False, verbose_name='Employee ID')
