@@ -2,6 +2,7 @@ from django import forms
 from .models import Employee
 from .models import Department
 
+
 class EmployeeForm(forms.ModelForm):
 
     class Meta:
@@ -15,7 +16,11 @@ class EmployeeForm(forms.ModelForm):
             'e_phone',
             'e_degree',
             'e_salary',
+            'eCompany',
+            'eDepartment',
         ]
+        
+        
 class DepartmentForm(forms.ModelForm):
 
     class Meta:
