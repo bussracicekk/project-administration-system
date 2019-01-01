@@ -5,9 +5,11 @@ from .models import Department
 from .forms import DepartmentForm
 from django.contrib import messages
 
+
 def employee_index(request):
     employees = Employee.objects.all()
     return render(request, 'employee/index.html', {'employees': employees})
+
 
 def employee_detail(request, id):
     employees = get_object_or_404(Employee, e_id=id)
@@ -16,6 +18,7 @@ def employee_detail(request, id):
     }
 
     return render(request, 'employee/detail.html', context)
+
 
 def employee_create(request):
 
@@ -39,6 +42,7 @@ def employee_create(request):
     }
     return render(request, 'employee/form.html', context)
 
+
 def employee_update(request, id):
     employees = get_object_or_404(Employee, e_id=id)
     form = EmployeeForm(request.POST or None, instance=employees)
@@ -52,15 +56,19 @@ def employee_update(request, id):
     }
     return render(request, 'employee/update.html', context)
 
+
 def employee_delete(request, id):
     employees = get_object_or_404(Employee, e_id=id)
     employees.delete()
     return redirect('employee:index')
 
 ##########################################################
+
+
 def department_index(request):
     departments = Department.objects.all()
     return render(request, 'department/index.html', {'departments': departments})
+
 
 def department_detail(request, id):
     departments = get_object_or_404(Department, d_id=id)
@@ -70,12 +78,13 @@ def department_detail(request, id):
 
     return render(request, 'department/detail.html', context)
 
+
 def department_create(request):
     form = DepartmentForm(request.POST or None)
     if form.is_valid():
         departments = form.save()
         messages.success(request, "Department is created, successfully!")
-        return HttpResponseRedirect(departments.get_absolute_url())
+        return HttpResponseRedirect(departments.get_department_url())
 
     context = {
         'form': form,
@@ -89,14 +98,15 @@ def department_update(request, id):
     if form.is_valid():
         form.save()
         messages.success(request, "Department is updated, successfully!")
-        return HttpResponseRedirect(departments.get_absolute_url())
+        return HttpResponseRedirect(departments.get_department_url())
 
     context = {
         'form': form,
     }
     return render(request, 'department/update.html', context)
 
+
 def department_delete(request, id):
     departments = get_object_or_404(Department, d_id=id)
     departments.delete()
-    return redirect('department:index')
+    return redirect('app:indexD')
