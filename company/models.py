@@ -9,6 +9,10 @@ class Company(models.Model):
     c_phone = models.CharField(max_length = 20, verbose_name = 'Company Phone')
     c_password = models.CharField(max_length=6,  verbose_name='Company Password')
 
+class ForeignCompany(Company):
+    f_rating =  models.IntegerField(verbose_name='Foreign Company Rating')
+    #fCompany = models.ForeignKey(Company,unique=True, primary_key=True , verbose_name='Company ID' )
+
 class Department(models.Model):
     d_id = models.IntegerField(unique=True, primary_key=True, verbose_name='Department ID')
     d_name = models.CharField(max_length=30, verbose_name='Department Name')
