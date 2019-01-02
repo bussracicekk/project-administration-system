@@ -1,10 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'base.html' %}
+
+{% block body %}
 
     {% for department in departments %}
         ID: {{ department.d_id }}</br>
@@ -14,5 +10,4 @@
 
     {% endfor %}
 
-</body>
-</html>
+{% endblock %}
