@@ -1,10 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Detail of Employees</title>
-</head>
-<body>
+{% extends 'base.html' %}
+
+{% block body %}
 
     {% if messages %}
     <ul class="messages">
@@ -24,5 +20,4 @@
     Department: {{ employee.eCompany }}<br>
     Company: {{ employee.eDepartment }}<br>
 
-</body>
-</html>
+{% endblock %}
