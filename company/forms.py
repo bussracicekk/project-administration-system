@@ -29,6 +29,7 @@ class DepartmentForm(forms.ModelForm):
             'd_id',
             'd_name',
             'd_capacity',
+            'd_phone',
             'd_password',
             'dCompany',
         ]
