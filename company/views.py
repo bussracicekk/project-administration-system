@@ -3,6 +3,8 @@ from .models import Employee
 from .forms import EmployeeForm
 from .models import Department
 from .forms import DepartmentForm
+from .forms import Project
+from .forms import ProjectForm
 from django.contrib import messages
 
 
@@ -110,3 +112,51 @@ def department_delete(request, id):
     departments = get_object_or_404(Department, d_id=id)
     departments.delete()
     return redirect('app:indexD')
+
+##########################################################
+
+def project_index(request):
+    projects = Project.objects.all()
+    return render(request, 'project/index.html', {'projects': projects})
+
+
+def project_detail(request, id):
+    projects = get_object_or_404(Project, p_id=id)
+    context = {
+        'project': projects,
+    }
+
+    return render(request, 'project/detail.html', context)
+
+
+def project_create(request):
+    form = ProjectForm(request.POST or None)
+    if form.is_valid():
+        projects = form.save()
+        messages.success(request, "Project is created, successfully!")
+        return HttpResponseRedirect(projects.get_project_url())
+
+    context = {
+        'form': form,
+    }
+    return render(request, 'project/form.html', context)
+
+
+def project_update(request, id):
+    projects = get_object_or_404(Project, p_id=id)
+    form = ProjectForm(request.POST or None, instance=projects)
+    if form.is_valid():
+        form.save()
+        messages.success(request, "Project is updated, successfully!")
+        return HttpResponseRedirect(projects.get_project_url())
+
+    context = {
+        'form': form,
+    }
+    return render(request, 'project/update.html', context)
+
+
+def project_delete(request, id):
+    projects = get_object_or_404(Project, p_id=id)
+    projects.delete()
+    return redirect('app:indexP')
