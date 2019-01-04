@@ -11,9 +11,8 @@
                     <p>Capacity: {{ department.d_capacity }}</p>
                     <p>Phone: {{ department.d_phone }}</p>
                     <p>Company: {{ department.dCompany }}</p>
-                    <p>
-                        <a href="{{ employee.get_update_url }}" class="btn btn-default" role="button">Update</a>
-                        <a href="{{ employee.get_delete_url }}" class="btn btn-danger" role="button">Delete</a>
+                    <p><a href="{{ department.get_updateD_url }}" class="btn btn-default" role="button">Update</a>
+                        <a href="{{ department.get_deleteD_url }}" class="btn btn-danger" role="button">Delete</a>
                     </p>
                 </div>
             </div>
