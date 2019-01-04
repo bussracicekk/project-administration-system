@@ -1,16 +1,24 @@
 {% extends 'base.html' %}
 
 {% block body %}
-
+    <div class="container">
     {% for employee in employees %}
-        ID: {{ employee.e_id }}</br>
-        <a href="{{ employee.get_absolute_url }}"> Name: {{ employee.e_name }} </a><br>
-        Surname: {{ employee.e_surname }}<br>
-        Company: {{ employee.eCompany }}<br>
-        Department: {{ employee.eDepartment }}<br>
-        Degree: {{ employee.e_degree }}<br>
-        *******************************<br>
-
+        <div class="row">
+            <div class="col-md-6 col-md-offset-3">
+                <div class="thumbnail">
+                    <div class="caption">
+                        <h3>{{ employee.e_name }} {{ employee.e_surname }}</h3>
+                        <p>Company: {{ employee.eCompany }}</p>
+                        <p>Department: {{ employee.eDepartment }}</p>
+                        <p><a href="{{ employee.get_absolute_url }}" class="btn btn-primary" role="button">research</a>
+                            <a href="{{ employee.get_update_url }}" class="btn btn-default" role="button">Update</a>
+                            <a href="{{ employee.get_delete_url }}" class="btn btn-danger" role="button">Delete</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
     {% endfor %}
+    </div>
 
 {% endblock %}
