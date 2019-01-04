@@ -24,8 +24,9 @@ class Department(models.Model):
     d_id = models.IntegerField(unique=True, primary_key=True, verbose_name='Department ID')
     d_name = models.CharField(max_length=30, verbose_name='Department Name')
     d_capacity = models.IntegerField(verbose_name='Department Capacity')
+    d_phone = models.IntegerField(verbose_name='Department Phone')
     d_password = models.CharField(max_length=6, verbose_name='Department Password')
-    dCompany = models.ForeignKey(Company, verbose_name='Company id')
+    dCompany = models.ForeignKey(Company, verbose_name='Company Name')
 
     def __str__(self):
         return self.d_name
@@ -52,8 +53,8 @@ class Employee(models.Model):
     e_phone = models.IntegerField(verbose_name='Phone')
     e_degree = models.IntegerField(verbose_name='Degree')
     e_salary = models.IntegerField(verbose_name='Salary')
-    eDepartment = models.ForeignKey(Department, verbose_name="Department ID")
-    eCompany = models.ForeignKey(Company, verbose_name="Company ID")
+    eDepartment = models.ForeignKey(Department, verbose_name="Department Name")
+    eCompany = models.ForeignKey(Company, verbose_name="Company Name")
 
     def __str__(self):
         return self.e_name
@@ -107,7 +108,7 @@ class Head(models.Model):
 
 class Issue(models.Model):
     i_id = models.IntegerField(unique=True, primary_key=True, verbose_name='Issue ID')
-    i_type= models.CharField(max_length=30, verbose_name='Issue Type')
+    i_type = models.CharField(max_length=30, verbose_name='Issue Type')
     i_extra = models.TextField(verbose_name='Issue Notes')
     i_content = models.TextField(verbose_name='Issue Content')
     pIssue = models.ForeignKey(Project, verbose_name='Project ID')
@@ -119,7 +120,7 @@ class Subtask(models.Model):
 
 
 class ProjectPlan(models.Model):
-    plan_id =  models.IntegerField(unique=True, primary_key=True, verbose_name='Plan ID')
+    plan_id = models.IntegerField(unique=True, primary_key=True, verbose_name='Plan ID')
     plan_type = models.CharField(max_length=30, verbose_name='Plan Type')
     plan_date = models.DateTimeField(verbose_name='Plan Date')
     headMakes = models.ForeignKey(Head, verbose_name='Head ID')
