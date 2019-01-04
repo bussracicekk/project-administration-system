@@ -59,7 +59,13 @@ class Project(models.Model):
     p_enddate = models.DateTimeField(verbose_name='Project End Date')
     p_title = models.CharField(max_length=75, verbose_name='Project Title')
     p_situation = models.CharField(max_length=20, verbose_name='Project Situation')
-    dProject = models.ForeignKey(Department, verbose_name='Deparment ID')
+    dProject = models.ForeignKey(Department, verbose_name='Department ID')
+
+    def __str__(self):
+        return self.p_title
+
+    def get_absolute_url(self):
+        return reverse('app:detailP', kwargs={'id': self.p_id})
 
 
 class Helps(models.Model):
