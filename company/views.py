@@ -62,7 +62,7 @@ def employee_update(request, id):
 def employee_delete(request, id):
     employees = get_object_or_404(Employee, e_id=id)
     employees.delete()
-    return redirect('employee:index')
+    return redirect('app:index')
 
 ##########################################################
 
@@ -114,6 +114,7 @@ def department_delete(request, id):
     return redirect('app:indexD')
 
 ##########################################################
+
 
 def project_index(request):
     projects = Project.objects.all()
