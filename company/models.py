@@ -33,6 +33,15 @@ class Department(models.Model):
     def get_department_url(self):
         return reverse('app:detailD', kwargs={'id': self.d_id})
 
+    def get_createD_url(self):
+        return reverse('app:createD')
+
+    def get_updateD_url(self):
+        return reverse('app:updateD', kwargs={'id': self.d_id})
+
+    def get_deleteD_url(self):
+        return reverse('app:deleteD', kwargs={'id': self.d_id})
+
 
 class Employee(models.Model):
     e_id = models.IntegerField(unique=True, primary_key=True, serialize=False, verbose_name='Employee ID')
@@ -51,6 +60,15 @@ class Employee(models.Model):
 
     def get_absolute_url(self):
         return reverse('app:detail', kwargs={'id': self.e_id})
+
+    def get_create_url(self):
+        return reverse('app:create')
+
+    def get_update_url(self):
+        return reverse('app:update', kwargs={'id': self.e_id})
+
+    def get_delete_url(self):
+        return reverse('app:delete', kwargs={'id': self.e_id})
 
 
 class Project(models.Model):
