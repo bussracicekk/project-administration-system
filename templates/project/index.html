@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block body %}
+
+    {% for project in projects %}
+        ID: {{ project.p_id }}</br>
+        <a href="{{ project.get_project_url }}"> Name: {{ project.p_title }} </a><br>
+        Department: {{ project.dProject }}<br>
+        *******************************<br>
+
+    {% endfor %}
+
+{% endblock %}
