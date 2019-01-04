@@ -1,7 +1,7 @@
 from django import forms
 from .models import Employee
 from .models import Department
-
+from .models import Project
 
 class EmployeeForm(forms.ModelForm):
 
@@ -32,3 +32,17 @@ class DepartmentForm(forms.ModelForm):
             'd_password',
             'dCompany',
         ]
+
+class ProjectForm(forms.ModelForm):
+
+    class Meta:
+        model = Project
+        fields = [
+            'p_id',
+            'p_startdate',
+            'p_enddate',
+            'p_title',
+            'p_situation',
+            'dProject',
+        ]
+
