@@ -64,7 +64,7 @@ class Project(models.Model):
     def __str__(self):
         return self.p_title
 
-    def get_absolute_url(self):
+    def get_project_url(self):
         return reverse('app:detailP', kwargs={'id': self.p_id})
 
 
