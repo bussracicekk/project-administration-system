@@ -31,6 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    #Django Applications
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -38,8 +39,12 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    #My Applications
     'company',
     'customer',
+
+    #Other Applications
+    'crispy_forms',
     ]
 
 MIDDLEWARE = [
@@ -132,3 +137,5 @@ STATICFILES_DIRS = [
 
 ]
 #STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
+
+CRISPY_TEMPLATE_PACK = 'bootstrap3'
