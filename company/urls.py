@@ -1,9 +1,7 @@
 from django.conf.urls import url
 from .views import *
 
-
 app_name = 'app'
-
 
 urlpatterns = [
 
@@ -18,4 +16,11 @@ urlpatterns = [
     url(r'^department/add/$', department_create, name='createD'),
     url(r'^(?P<id>\d+)/updateD/$', department_update, name='updateD'),
     url(r'^(?P<id>\d+)/deleteD/$', department_delete, name='deleteD'),
+
+    url(r'^projects/$', project_index, name='indexP'),
+    url(r'^(?P<id>\d+)/detailP/$', project_detail, name="detailP"),
+    url(r'^project/add/$', project_create, name='createP'),
+    url(r'^(?P<id>\d+)/updateP/$', project_update, name='updateP'),
+    url(r'^(?P<id>\d+)/deleteP/$', project_delete, name='deleteP'),
+
 ]
