@@ -79,7 +79,7 @@ class Project(models.Model):
     p_title = models.CharField(max_length=75, verbose_name='Project Title')
     p_situation = models.CharField(max_length=20, verbose_name='Project Situation')
     dProject = models.ForeignKey(Department, verbose_name='Department ID')
-
+    image = models.FileField(null=True, blank=True)
     def __str__(self):
         return self.p_title
 
