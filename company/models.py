@@ -79,14 +79,14 @@ class Project(models.Model):
     p_title = models.CharField(max_length=75, verbose_name='Project Title')
     p_situation = models.CharField(max_length=20, verbose_name='Project Situation')
     dProject = models.ForeignKey(Department, verbose_name='Department Name')
-    image = models.FileField(null=True, blank=True)
-    
+    image = models.ImageField(null=True, blank=True)
+
     def __str__(self):
         return self.p_title
 
     def get_project_url(self):
         return reverse('app:detailP', kwargs={'id': self.p_id})
-    
+
     def get_createP_url(self):
         return reverse('app:createP')
 
@@ -96,6 +96,8 @@ class Project(models.Model):
     def get_deleteP_url(self):
         return reverse('app:deleteP', kwargs={'id': self.p_id})
 
+    class Meta:
+        ordering = ['p_enddate']
 
 class Helps(models.Model):
     h_price = models.IntegerField(verbose_name='Project Price')
