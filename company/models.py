@@ -78,7 +78,7 @@ class Project(models.Model):
     p_enddate = models.DateTimeField(verbose_name='Project End Date')
     p_title = models.CharField(max_length=75, verbose_name='Project Title')
     p_situation = models.CharField(max_length=20, verbose_name='Project Situation')
-    dProject = models.ForeignKey(Department, verbose_name='Department ID')
+    dProject = models.ForeignKey(Department, verbose_name='Department Name')
     image = models.FileField(null=True, blank=True)
     
     def __str__(self):
