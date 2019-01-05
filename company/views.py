@@ -6,6 +6,7 @@ from .forms import DepartmentForm
 from .forms import Project
 from .forms import ProjectForm
 from django.contrib import messages
+from django.utils.text import slugify
 
 
 def employee_index(request):
@@ -72,8 +73,8 @@ def department_index(request):
     return render(request, 'department/index.html', {'departments': departments})
 
 
-def department_detail(request, id):
-    departments = get_object_or_404(Department, d_id=id)
+def department_detail(request, d_slug):
+    departments = get_object_or_404(Department, d_slug=d_slug)
     context = {
         'department': departments,
     }
@@ -94,8 +95,8 @@ def department_create(request):
     return render(request, 'department/form.html', context)
 
 
-def department_update(request, id):
-    departments = get_object_or_404(Department, d_id=id)
+def department_update(request, d_slug):
+    departments = get_object_or_404(Department, d_slug=d_slug)
     form = DepartmentForm(request.POST or None, instance=departments)
     if form.is_valid():
         form.save()
@@ -108,8 +109,8 @@ def department_update(request, id):
     return render(request, 'department/update.html', context)
 
 
-def department_delete(request, id):
-    departments = get_object_or_404(Department, d_id=id)
+def department_delete(request, d_slug):
+    departments = get_object_or_404(Department, d_slug=d_slug)
     departments.delete()
     return redirect('app:indexD')
 
