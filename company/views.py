@@ -14,8 +14,8 @@ def employee_index(request):
     return render(request, 'employee/index.html', {'employees': employees})
 
 
-def employee_detail(request, id):
-    employees = get_object_or_404(Employee, e_id=id)
+def employee_detail(request, e_slug):
+    employees = get_object_or_404(Employee, e_slug=e_slug)
     context = {
         'employee': employees,
     }
@@ -46,8 +46,8 @@ def employee_create(request):
     return render(request, 'employee/form.html', context)
 
 
-def employee_update(request, id):
-    employees = get_object_or_404(Employee, e_id=id)
+def employee_update(request, e_slug):
+    employees = get_object_or_404(Employee, e_slug=e_slug)
     form = EmployeeForm(request.POST or None, instance=employees)
     if form.is_valid():
         form.save()
@@ -60,8 +60,8 @@ def employee_update(request, id):
     return render(request, 'employee/update.html', context)
 
 
-def employee_delete(request, id):
-    employees = get_object_or_404(Employee, e_id=id)
+def employee_delete(request, e_slug):
+    employees = get_object_or_404(Employee, e_slug=e_slug)
     employees.delete()
     return redirect('app:index')
 
@@ -122,8 +122,8 @@ def project_index(request):
     return render(request, 'project/index.html', {'projects': projects})
 
 
-def project_detail(request, id):
-    projects = get_object_or_404(Project, p_id=id)
+def project_detail(request, p_slug):
+    projects = get_object_or_404(Project, p_slug=p_slug)
     context = {
         'project': projects,
     }
@@ -144,8 +144,8 @@ def project_create(request):
     return render(request, 'project/form.html', context)
 
 
-def project_update(request, id):
-    projects = get_object_or_404(Project, p_id=id)
+def project_update(request, p_slug):
+    projects = get_object_or_404(Project, p_slug=p_slug)
     form = ProjectForm(request.POST or None, request.FILES or None, instance=projects)
     if form.is_valid():
         form.save()
@@ -158,7 +158,7 @@ def project_update(request, id):
     return render(request, 'project/update.html', context)
 
 
-def project_delete(request, id):
-    projects = get_object_or_404(Project, p_id=id)
+def project_delete(request, p_slug):
+    projects = get_object_or_404(Project, p_slug=p_slug)
     projects.delete()
     return redirect('app:indexP')
