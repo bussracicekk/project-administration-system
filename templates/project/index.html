@@ -1,13 +1,23 @@
 {% extends 'base.html' %}
 
 {% block body %}
-
+    <div class="container">
     {% for project in projects %}
-        ID: {{ project.p_id }}</br>
-        <a href="{{ project.get_project_url }}"> Name: {{ project.p_title }} </a><br>
-        Department: {{ project.dProject }}<br>
-        *******************************<br>
-
+        <div class="row">
+            <div class="col-md-6 col-md-offset-3">
+                <div class="thumbnail">
+                    <div class="caption">
+                        <h3>{{ project.p_title }}</h3>
+                        <p>Department: {{ project.dProject }}</p>
+                        <p><a href="{{ project.get_project_url }}" class="btn btn-primary" role="button">research</a>
+                            <a href="{{ project.get_updateP_url }}" class="btn btn-default" role="button">Update</a>
+                            <a href="{{ project.get_deleteP_url }}" class="btn btn-danger" role="button">Delete</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
     {% endfor %}
+    </div>
 
 {% endblock %}
