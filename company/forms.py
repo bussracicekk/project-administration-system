@@ -3,6 +3,7 @@ from .models import Employee
 from .models import Department
 from .models import Project
 
+
 class EmployeeForm(forms.ModelForm):
 
     class Meta:
@@ -45,5 +46,6 @@ class ProjectForm(forms.ModelForm):
             'p_title',
             'p_situation',
             'dProject',
+            'image',
         ]
 
