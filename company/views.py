@@ -131,7 +131,7 @@ def project_detail(request, id):
 
 
 def project_create(request):
-    form = ProjectForm(request.POST or None)
+    form = ProjectForm(request.POST or None, request.FILES or None)
     if form.is_valid():
         projects = form.save()
         messages.success(request, "Project is created, successfully!")
@@ -145,7 +145,7 @@ def project_create(request):
 
 def project_update(request, id):
     projects = get_object_or_404(Project, p_id=id)
-    form = ProjectForm(request.POST or None, instance=projects)
+    form = ProjectForm(request.POST or None, request.FILES or None, instance=projects)
     if form.is_valid():
         form.save()
         messages.success(request, "Project is updated, successfully!")
