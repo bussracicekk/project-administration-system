@@ -80,11 +80,21 @@ class Project(models.Model):
     p_situation = models.CharField(max_length=20, verbose_name='Project Situation')
     dProject = models.ForeignKey(Department, verbose_name='Department ID')
     image = models.FileField(null=True, blank=True)
+    
     def __str__(self):
         return self.p_title
 
     def get_project_url(self):
         return reverse('app:detailP', kwargs={'id': self.p_id})
+    
+    def get_createP_url(self):
+        return reverse('app:createP')
+
+    def get_updateP_url(self):
+        return reverse('app:updateP', kwargs={'id': self.e_id})
+
+    def get_deleteP_url(self):
+        return reverse('app:deleteP', kwargs={'id': self.e_id})
 
 
 class Helps(models.Model):
