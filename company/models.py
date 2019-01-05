@@ -21,31 +21,45 @@ class ForeignCompany(Company):
 
 
 class Department(models.Model):
-    d_id = models.IntegerField(unique=True, primary_key=True, verbose_name='Department ID')
+    d_id = models.IntegerField(primary_key=True, verbose_name='Department ID')
     d_name = models.CharField(max_length=30, verbose_name='Department Name')
     d_capacity = models.IntegerField(verbose_name='Department Capacity')
     d_phone = models.IntegerField(verbose_name='Department Phone')
     d_password = models.CharField(max_length=6, verbose_name='Department Password')
     dCompany = models.ForeignKey(Company, verbose_name='Company Name')
+    d_slug = models.SlugField(unique=True,editable=False, max_length=130)
 
     def __str__(self):
         return self.d_name
 
     def get_department_url(self):
-        return reverse('app:detailD', kwargs={'id': self.d_id})
+        return reverse('app:detailD', kwargs={'d_slug': self.d_slug})
 
     def get_createD_url(self):
         return reverse('app:createD')
 
     def get_updateD_url(self):
-        return reverse('app:updateD', kwargs={'id': self.d_id})
+        return reverse('app:updateD', kwargs={'d_slug': self.d_slug})
 
     def get_deleteD_url(self):
-        return reverse('app:deleteD', kwargs={'id': self.d_id})
+        return reverse('app:deleteD', kwargs={'d_slug': self.d_slug})
+
+    def get_unique_D_slug(self):
+        d_slug = slugify(self.d_name.replace('ı', 'i'))
+        unique_slug = d_slug
+        counter = 1
+        while Department.objects.filter(d_slug=unique_slug).exists():
+            unique_slug = '{}-{}'.format(d_slug, counter)
+            counter += 1
+        return unique_slug
+
+    def save(self, *args, **kwargs):
+        self.d_slug = self.get_unique_D_slug()
+        return super(Department, self).save(*args, **kwargs)
 
 
 class Employee(models.Model):
-    e_id = models.IntegerField(unique=True, primary_key=True, serialize=False, verbose_name='Employee ID')
+    e_id = models.IntegerField(primary_key=True, serialize=False, verbose_name='Employee ID')
     e_name = models.CharField(max_length=30, verbose_name='Name')
     e_surname = models.CharField(max_length=30, verbose_name='Surname')
     e_password = models.CharField(max_length=6, verbose_name='Password')
@@ -55,6 +69,7 @@ class Employee(models.Model):
     e_salary = models.IntegerField(verbose_name='Salary')
     eDepartment = models.ForeignKey(Department, verbose_name="Department Name")
     eCompany = models.ForeignKey(Company, verbose_name="Company Name")
+    e_slug = models.SlugField(unique=True)
 
     def __str__(self):
         return self.e_name
@@ -73,13 +88,14 @@ class Employee(models.Model):
 
 
 class Project(models.Model):
-    p_id = models.IntegerField(unique=True, primary_key=True, verbose_name='Project ID')
+    p_id = models.IntegerField(primary_key=True, verbose_name='Project ID')
     p_startdate = models.DateTimeField(verbose_name='Project Start Date')
     p_enddate = models.DateTimeField(verbose_name='Project End Date')
     p_title = models.CharField(max_length=75, verbose_name='Project Title')
     p_situation = models.CharField(max_length=20, verbose_name='Project Situation')
     dProject = models.ForeignKey(Department, verbose_name='Department Name')
     image = models.ImageField(null=True, blank=True)
+    p_slug = models.SlugField(unique=True)
 
     def __str__(self):
         return self.p_title
