@@ -2,6 +2,7 @@
 
 {% block body %}
     <div class="container">
+        <p><a href="{% url 'app:create' %}" class="btn btn-primary" role="button">New Employee Add</a></p>
     {% for employee in employees %}
         <div class="row">
             <div class="col-md-6 col-md-offset-3">
@@ -10,7 +11,7 @@
                         <h3>{{ employee.e_name }} {{ employee.e_surname }}</h3>
                         <p>Company: {{ employee.eCompany }}</p>
                         <p>Department: {{ employee.eDepartment }}</p>
-                        <p><a href="{{ employee.get_absolute_url }}" class="btn btn-primary" role="button">research</a>
+                        <p><a href="{{ employee.get_absolute_url }}" class="btn btn-primary" role="button">Research</a>
                             <a href="{{ employee.get_update_url }}" class="btn btn-default" role="button">Update</a>
                             <a href="{{ employee.get_delete_url }}" class="btn btn-danger" role="button">Delete</a>
                         </p>
@@ -18,7 +19,27 @@
                 </div>
             </div>
         </div>
+
     {% endfor %}
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+            <div class="pagination">
+                <span class="step-links">
+                    {% if employees.has_previous %}
+                        <a href="?page={{ employees.previous_page_number }}">previous</a>
+                    {% endif %}
+                    <span class="current">
+                        Page {{ employees.number }} of {{ employees.paginator.num_pages }}.
+                    </span>
+
+                    {% if employees.has_next %}
+                        <a href="?page={{ employees.next_page_number }}">next</a>
+                    {% endif %}
+                </span>
+            </div>
+        </div>
+    </div>
+
     </div>
 
 {% endblock %}
