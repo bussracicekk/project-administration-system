@@ -59,6 +59,8 @@ class Department(models.Model):
         self.d_slug = self.get_unique_D_slug()
         return super(Department, self).save(*args, **kwargs)
 
+    class Meta:
+        ordering = ['dCompany']
 
 class Employee(models.Model):
     e_id = models.IntegerField(primary_key=True, serialize=False, verbose_name='Employee ID')
@@ -71,10 +73,11 @@ class Employee(models.Model):
     e_salary = models.IntegerField(verbose_name='Salary')
     eDepartment = models.ForeignKey(Department, verbose_name="Department Name")
     eCompany = models.ForeignKey(Company, verbose_name="Company Name")
+    Image = models.ImageField(null=True, blank=True)
     e_slug = models.SlugField(unique=True,editable=False, max_length=130)
 
     def __str__(self):
-        return self.e_name
+        return "{} {}".format(self.e_name, self.e_surname)
 
     def get_absolute_url(self):
         return reverse('app:detail', kwargs={'e_slug': self.e_slug})
@@ -101,6 +104,9 @@ class Employee(models.Model):
         self.e_slug = self.get_unique_E_slug()
         return super(Employee, self).save(*args, **kwargs)
 
+    class Meta:
+        ordering = ['eCompany', 'eDepartment', '-e_degree']
+
 
 class Project(models.Model):
     p_id = models.IntegerField(primary_key=True, verbose_name='Project ID')
@@ -108,7 +114,10 @@ class Project(models.Model):
     p_enddate = models.DateTimeField(verbose_name='Project End Date')
     p_title = models.CharField(max_length=75, verbose_name='Project Title')
     p_situation = models.CharField(max_length=20, verbose_name='Project Situation')
+    cProject = models.ForeignKey(Company, verbose_name='Company Name')
     dProject = models.ForeignKey(Department, verbose_name='Department Name')
+    eProject = models.ForeignKey(Employee, null=True, related_name='eProject', verbose_name='Project Manager')
+    sProject = models.ForeignKey(Employee, null=True, related_name='sProject')
     image = models.ImageField(null=True, blank=True)
     p_slug = models.SlugField(unique=True,editable=False, max_length=130)
 
@@ -142,6 +151,7 @@ class Project(models.Model):
 
     class Meta:
         ordering = ['p_enddate']
+
 
 class Helps(models.Model):
     h_price = models.IntegerField(verbose_name='Project Price')
