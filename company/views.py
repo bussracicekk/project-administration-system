@@ -6,11 +6,26 @@ from .forms import DepartmentForm
 from .forms import Project
 from .forms import ProjectForm
 from django.contrib import messages
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.utils.text import slugify
 
 
 def employee_index(request):
-    employees = Employee.objects.all()
+    employees_list = Employee.objects.all()
+    query = request.GET.get('q')
+    if query:
+        employees_list = employees_list.filter(e_name__icontains=query)
+    paginator = Paginator(employees_list, 5)  # Show 25 contacts per page
+
+    page = request.GET.get('page')
+    try:
+        employees = paginator.page(page)
+    except PageNotAnInteger:
+        # If page is not an integer, deliver first page.
+        employees = paginator.page(1)
+    except EmptyPage:
+        # If page is out of range (e.g. 9999), deliver last page of results.
+        employees = paginator.page(paginator.num_pages)
     return render(request, 'employee/index.html', {'employees': employees})
 
 
@@ -69,12 +84,27 @@ def employee_delete(request, e_slug):
 
 
 def department_index(request):
-    departments = Department.objects.all()
+    departments_list = Department.objects.all()
+    query = request.GET.get('q')
+    if query:
+        departments_list = departments_list.filter(d_name__icontains=query)
+    paginator = Paginator(departments_list, 5)  # Show 25 contacts per page
+
+    page = request.GET.get('page')
+    try:
+        departments = paginator.page(page)
+    except PageNotAnInteger:
+        # If page is not an integer, deliver first page.
+        departments = paginator.page(1)
+    except EmptyPage:
+        # If page is out of range (e.g. 9999), deliver last page of results.
+        departments = paginator.page(paginator.num_pages)
     return render(request, 'department/index.html', {'departments': departments})
 
 
 def department_detail(request, d_slug):
     departments = get_object_or_404(Department, d_slug=d_slug)
+
     context = {
         'department': departments,
     }
@@ -118,7 +148,21 @@ def department_delete(request, d_slug):
 
 
 def project_index(request):
-    projects = Project.objects.all()
+    projects_list = Project.objects.all()
+    query = request.GET.get('q')
+    if query:
+        projects_list = projects_list.filter(p_title__icontains=query)
+    paginator = Paginator(projects_list, 5)  # Show 25 contacts per page
+
+    page = request.GET.get('page')
+    try:
+        projects = paginator.page(page)
+    except PageNotAnInteger:
+        # If page is not an integer, deliver first page.
+        projects = paginator.page(1)
+    except EmptyPage:
+        # If page is out of range (e.g. 9999), deliver last page of results.
+        projects = paginator.page(paginator.num_pages)
     return render(request, 'project/index.html', {'projects': projects})
 
 
