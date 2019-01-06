@@ -15,7 +15,9 @@
                     <p>Start Date: {{ project.p_startdate }}</p>
                     <p>End Date: {{ project.p_enddate}}</p>
                     <p>Situation {{ project.p_situation }}</p>
-                    <p>Department: {{ project.dDepartment }}</p>
+                    <p>Company: {{ project.cProject }}</p>
+                    <p>Department: {{ project.dProject }}</p>
+                    <p>Project Manager: {{ project.eProject }}</p>
                     <p>
                         <a href="{{ project.get_updateP_url }}" class="btn btn-default" role="button">Update</a>
                         <a href="{{ project.get_deleteP_url }}" class="btn btn-danger" role="button">Delete</a>
