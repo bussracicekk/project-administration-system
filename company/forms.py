@@ -19,6 +19,7 @@ class EmployeeForm(forms.ModelForm):
             'e_salary',
             'eCompany',
             'eDepartment',
+            'Image'
         ]
         
         
@@ -35,6 +36,7 @@ class DepartmentForm(forms.ModelForm):
             'dCompany',
         ]
 
+
 class ProjectForm(forms.ModelForm):
 
     class Meta:
@@ -45,7 +47,9 @@ class ProjectForm(forms.ModelForm):
             'p_enddate',
             'p_title',
             'p_situation',
+            'cProject',
             'dProject',
+            'eProject',
             'image',
         ]
 
