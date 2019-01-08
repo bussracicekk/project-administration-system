@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from .forms import LoginForm
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login , logout
 
 
 def login_view(request):
@@ -16,3 +16,7 @@ def login_view(request):
         if usertype == "customer":
             return redirect('home')
     return render(request, 'accounts/form.html', {'form': form})
+
+def logout_view(request):
+    logout(request)
+    return redirect('home')
