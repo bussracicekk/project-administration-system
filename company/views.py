@@ -7,6 +7,7 @@ from .forms import Project
 from .forms import ProjectForm
 from django.contrib import messages
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.db.models import Q
 from django.utils.text import slugify
 
 
@@ -14,7 +15,11 @@ def employee_index(request):
     employees_list = Employee.objects.all()
     query = request.GET.get('q')
     if query:
-        employees_list = employees_list.filter(e_name__icontains=query)
+        employees_list = employees_list.filter(
+            Q(e_name__icontains=query) |
+            Q(e_surname__icontains=query) |
+            Q(eDepartment__icontains=query)
+            ).distinct()
     paginator = Paginator(employees_list, 5)  # Show 25 contacts per page
 
     page = request.GET.get('page')
