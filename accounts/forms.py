@@ -15,3 +15,4 @@ class LoginForm(forms.Form):
             if not user:
                 raise forms.ValidationError('Username or password is not correct')
             return  super(LoginForm, self).clean()
+
