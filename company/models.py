@@ -62,6 +62,7 @@ class Department(models.Model):
     class Meta:
         ordering = ['dCompany']
 
+
 class Employee(models.Model):
     e_id = models.IntegerField(primary_key=True, serialize=False, verbose_name='Employee ID')
     e_name = models.CharField(max_length=30, verbose_name='Name')
