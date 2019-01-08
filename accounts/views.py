@@ -12,7 +12,7 @@ def login_view(request):
         user = authenticate(username=username, password=password, useryype=usertype)
         login(request, user)
         if usertype == "company":
-            return redirect('company')
+            return redirect('home')
         if usertype == "customer":
             return redirect('home')
     return render(request, 'accounts/form.html', {'form': form})
