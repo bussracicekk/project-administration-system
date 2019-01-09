@@ -30,8 +30,12 @@
 
             <!-- Temel Sayfalar -->
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="{% url 'home' %}">Home Page</a></li>
-                <li><a href="#">Company</a></li>
+                {% if not request.user.is_authenticated %}
+                    <li><a href="{% url 'home' %}">Home Page</a></li>
+                {% endif %}
+                {% if request.user.is_authenticated %}
+                    <li><a href="{% url 'app:homeC' %}">Home</a></li>
+                {% endif %}
                 <li><a href="{% url 'app:indexD' %}">Department</a></li>
                 <li><a href="{% url 'app:index' %}">Employee</a></li>
                 <li><a href="{% url 'app:indexP' %}">Project</a></li>
