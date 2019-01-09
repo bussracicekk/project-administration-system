@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block title %}HomePage - {{ block.super }}{% endblock %}
+
+{% block body %}
+      <div class="container-fluid">
+            <p><a href="{% url 'account:logout' %}" class="btn btn-primary" role="button" style="padding-top:20px; margin-botto: 20px; margin-left:1200px; padding-left:20px; padding-bottom:20px">Sign Out </a></p>
+            <div class="row" style="="margin-botto: 30px;>
+                  Welcome, {{ request.username }}
+            </div>
+      </div>
+
+{% endblock %}
