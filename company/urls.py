@@ -5,6 +5,8 @@ app_name = 'app'
 
 urlpatterns = [
 
+    url(r'^home/$', company_view, name='homeC'),
+
     url(r'^employees/$', employee_index, name='index'),
     url(r'^employee/add/$', employee_create, name='create'),
     url(r'^(?P<e_slug>[\w-]+)/detail/$', employee_detail, name='detail'),
