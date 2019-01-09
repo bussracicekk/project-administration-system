@@ -211,3 +211,8 @@ def project_delete(request, p_slug):
     projects = get_object_or_404(Project, p_slug=p_slug)
     projects.delete()
     return redirect('app:indexP')
+
+
+def company_view(request):
+    #return HttpResponse('<b>Welcome</b>')
+    return render(request, 'company/company.html', {})
