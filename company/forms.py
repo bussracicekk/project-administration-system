@@ -66,6 +66,7 @@ class IssueForm(forms.ModelForm):
             'i_extra',
             'i_content',
             'pIssue',
+            'i_work',
         ]
 
 class SubtaskForm(forms.ModelForm):
