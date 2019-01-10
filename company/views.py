@@ -5,6 +5,10 @@ from .models import Department
 from .forms import DepartmentForm
 from .forms import Project
 from .forms import ProjectForm
+from .forms import Issue
+from .forms import IssueForm
+from .forms import Subtask
+from .forms import SubtaskForm
 from django.contrib import messages
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db.models import Q
@@ -212,6 +216,132 @@ def project_delete(request, p_slug):
     projects.delete()
     return redirect('app:indexP')
 
+##########################################################
+
+def issue_index(request):
+    issues_list = Issue.objects.all()
+    query = request.GET.get('q')
+    if query:
+        issues_list = issues_list.filter(i_id__icontains=query)
+    paginator = Paginator(issues_list, 5)  # Show 25 contacts per page
+
+    page = request.GET.get('page')
+    try:
+        issues = paginator.page(page)
+    except PageNotAnInteger:
+        # If page is not an integer, deliver first page.
+        issues = paginator.page(1)
+    except EmptyPage:
+        # If page is out of range (e.g. 9999), deliver last page of results.
+        issues = paginator.page(paginator.num_pages)
+    return render(request, 'issue/index.html', {'issues': issues})
+
+
+def issue_detail(request, i_slug):
+    issues = get_object_or_404(Project, i_slug=i_slug)
+    context = {
+        'issue': issues,
+    }
+
+    return render(request, 'issue/detail.html', context)
+
+
+def issue_create(request):
+    form = IssueForm(request.POST or None, request.FILES or None)
+    if form.is_valid():
+        issues = form.save()
+        messages.success(request, "Issue is created, successfully!")
+        return HttpResponseRedirect(issues.get_issue_url())
+
+    context = {
+        'form': form,
+    }
+    return render(request, 'issue/form.html', context)
+
+
+def issue_update(request, i_slug):
+    issues = get_object_or_404(Issue, i_slug=i_slug)
+    form = IssueForm(request.POST or None, request.FILES or None, instance=issues)
+    if form.is_valid():
+        form.save()
+        messages.success(request, "Issue is updated, successfully!")
+        return HttpResponseRedirect(issues.get_issue_url())
+
+    context = {
+        'form': form,
+    }
+    return render(request, 'issue/update.html', context)
+
+
+def issue_delete(request, i_slug):
+    issues = get_object_or_404(Issue, i_slug=i_slug)
+    issues.delete()
+    return redirect('app:indexI')
+
+
+##########################################################
+
+
+def subtask_index(request):
+    subtasks_list = Subtask.objects.all()
+    query = request.GET.get('q')
+    if query:
+        subtasks_list = subtasks_list.filter(sub_id__icontains=query)
+    paginator = Paginator(subtasks_list, 5)  # Show 25 contacts per page
+
+    page = request.GET.get('page')
+    try:
+        subtasks = paginator.page(page)
+    except PageNotAnInteger:
+        subtasks = paginator.page(1)
+    except EmptyPage:
+        subtasks = paginator.page(paginator.num_pages)
+    return render(request, 'subtask/index.html', {'subtasks': subtasks})
+
+
+def subtask_detail(request, sub_slug):
+    subtasks = get_object_or_404(Subtask, sub_slug=sub_slug)
+    context = {
+        'subtask': subtasks,
+    }
+
+    return render(request, 'subtask/detail.html', context)
+
+
+def subtask_create(request):
+    form = SubtaskForm(request.POST or None, request.FILES or None)
+    if form.is_valid():
+        subtasks = form.save()
+        messages.success(request, "Subtask is created, successfully!")
+        return HttpResponseRedirect(subtasks.get_subtask_url())
+
+    context = {
+        'form': form,
+    }
+    return render(request, 'subtask/form.html', context)
+
+
+def subtask_update(request, sub_slug):
+    subtasks = get_object_or_404(Subtask, sub_slug=sub_slug)
+    form = SubtaskForm(request.POST or None, request.FILES or None, instance=issues)
+    if form.is_valid():
+        form.save()
+        messages.success(request, "Subtask is updated, successfully!")
+        return HttpResponseRedirect(subtasks.get_subtask_url())
+
+    context = {
+        'form': form,
+    }
+    return render(request, 'subtask/update.html', context)
+
+
+def subtask_delete(request, sub_slug):
+    subtasks = get_object_or_404(Subtask, sub_slug=sub_slug)
+    subtasks.delete()
+    return redirect('app:indexSub')
+
+
+##########################################################
 
 def company_view(request):
     #return HttpResponse('<b>Welcome</b>')
