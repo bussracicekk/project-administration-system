@@ -9,7 +9,6 @@ from .models import Subtask
 from .models import Other
 from .models import Helps
 from .models import ForeignCompany
-#from company.models import Employee
 
 admin.site.register(Company)
 admin.site.register(Employee)
