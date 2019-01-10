@@ -218,6 +218,7 @@ class Subtask(models.Model):
     sub_id = models.IntegerField(unique=True, primary_key=True, verbose_name='Subtask ID')
     sub_content = RichTextField(verbose_name='Subtask Content')
     iIssue = models.ForeignKey(Issue, verbose_name='Issue ID')
+    s_work = models.ForeignKey(Other, verbose_name='Assign Employee')
     sub_slug = models.SlugField(unique=True, editable=False, max_length=130)
 
     def __str__(self):
