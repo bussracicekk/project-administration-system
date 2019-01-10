@@ -8,7 +8,7 @@ from ckeditor.fields import RichTextField
 class Company(models.Model):
     c_id = models.IntegerField(unique=True, primary_key=True, verbose_name='Company ID')
     c_name = models.CharField(max_length=30, verbose_name='Company Name')
-    c_email = models.CharField(max_length=30, verbose_name='Company E-mail')
+    c_email = models.EmailField(verbose_name='Company E-mail')
     c_address = RichTextField(verbose_name='Company Address')
     c_phone = models.CharField(max_length=20, verbose_name = 'Company Phone')
     c_password = models.CharField(max_length=6,  verbose_name='Company Password')
@@ -16,10 +16,8 @@ class Company(models.Model):
     def __str__(self):
         return self.c_name
 
-
 class ForeignCompany(Company):
     f_rating = models.IntegerField(verbose_name='Foreign Company Rating')
-    #fCompany = models.ForeignKey(Company, unique=True, primary_key=True, verbose_name='Company ID')
 
 
 class Department(models.Model):
@@ -68,7 +66,7 @@ class Employee(models.Model):
     e_name = models.CharField(max_length=30, verbose_name='Name')
     e_surname = models.CharField(max_length=30, verbose_name='Surname')
     e_password = models.CharField(max_length=6, verbose_name='Password')
-    e_email = models.CharField(max_length=30, verbose_name='Email')
+    e_email = models.EmailField(verbose_name='Email')
     e_phone = models.IntegerField(verbose_name='Phone')
     e_degree = models.IntegerField(verbose_name='Degree')
     e_salary = models.IntegerField(verbose_name='Salary')
@@ -107,6 +105,8 @@ class Employee(models.Model):
 
     class Meta:
         ordering = ['eCompany', 'eDepartment', '-e_degree']
+
+
 
 
 class Project(models.Model):
@@ -163,14 +163,6 @@ class Helps(models.Model):
     cHelps = models.ForeignKey(Company, verbose_name='Which Company Helps (ID)')
 
 
-class Other(models.Model):
-    o_studyproject = models.ForeignKey(Project, verbose_name='Works Project ID')
-    eOther = models.ForeignKey(Employee, unique=True, primary_key=True, serialize=False, verbose_name='Employee')
-
-
-class Head(models.Model):
-    eHead = models.ForeignKey(Employee, unique=True, primary_key=True, serialize=False, verbose_name='Employee')
-    h_degree = models.IntegerField(verbose_name='Head Degree')
 
 
 class Issue(models.Model):
@@ -179,11 +171,84 @@ class Issue(models.Model):
     i_extra = RichTextField(verbose_name='Issue Notes')
     i_content = RichTextField(verbose_name='Issue Content')
     pIssue = models.ForeignKey(Project, verbose_name='Project ID')
+    i_slug = models.SlugField(unique=True, editable=False, max_length=130)
+
+    def __str__(self):
+        return self.i_id
+
+    def get_issue_url(self):
+        return reverse('app:detailI', kwargs={'i_slug': self.i_slug})
+
+    def get_createI_url(self):
+        return reverse('app:createI')
+
+    def get_updateI_url(self):
+        return reverse('app:updateI', kwargs={'i_slug': self.i_slug})
+
+    def get_deleteI_url(self):
+        return reverse('app:deleteI', kwargs={'i_slug': self.i_slug})
+
+    def get_unique_I_slug(self):
+        unique_slug = i_slug
+        counter = 1
+        while Issue.objects.filter(i_slug=unique_slug).exists():
+            unique_slug = '{}-{}'.format(i_slug, counter)
+            counter += 1
+        return unique_slug
+
+    def save(self, *args, **kwargs):
+        self.i_slug = self.get_unique_I_slug()
+        return super(Issue, self).save(*args, **kwargs)
+
+    class Meta:
+        ordering = ['i_id']
 
 
 class Subtask(models.Model):
     sub_id = models.IntegerField(unique=True, primary_key=True, verbose_name='Subtask ID')
+    sub_content = RichTextField(verbose_name='Subtask Content')
     iIssue = models.ForeignKey(Issue, verbose_name='Issue ID')
+    sub_slug = models.SlugField(unique=True, editable=False, max_length=130)
+
+    def __str__(self):
+        return self.sub_id
+
+    def get_subtask_url(self):
+        return reverse('app:detailSub', kwargs={'sub_slug': self.sub_slug})
+
+    def get_createSub_url(self):
+        return reverse('app:createSub')
+
+    def get_updateSub_url(self):
+        return reverse('app:updateSub', kwargs={'sub_slug': self.sub_slug})
+
+    def get_deleteSub_url(self):
+        return reverse('app:deleteSub', kwargs={'sub_slug': self.sub_slug})
+
+    def get_unique_Sub_slug(self):
+        unique_slug = sub_slug
+        counter = 1
+        while Subtask.objects.filter(sub_slug=unique_slug).exists():
+            unique_slug = '{}-{}'.format(sub_slug, counter)
+            counter += 1
+        return unique_slug
+
+    def save(self, *args, **kwargs):
+        self.sub_slug = self.get_unique_Sub_slug()
+        return super(Subtask, self).save(*args, **kwargs)
+
+    class Meta:
+        ordering = ['sub_id']
+
+
+class Other(models.Model):
+    o_studyproject = models.ForeignKey(Project, verbose_name='Works Project ID')
+    eOther = models.ForeignKey(Employee, unique=True, primary_key=True, serialize=False, verbose_name='Employee')
+
+
+class Head(models.Model):
+    eHead = models.ForeignKey(Employee, unique=True, primary_key=True, serialize=False, verbose_name='Employee')
+    h_degree = models.IntegerField(verbose_name='Head Degree')
 
 
 class ProjectPlan(models.Model):
