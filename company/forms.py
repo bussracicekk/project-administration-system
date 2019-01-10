@@ -77,4 +77,5 @@ class SubtaskForm(forms.ModelForm):
             'sub_id',
             'sub_content',
             'iIssue',
+            's_work',
         ]
