@@ -2,6 +2,8 @@ from django import forms
 from .models import Employee
 from .models import Department
 from .models import Project
+from .models import Issue
+from .models import Subtask
 
 
 class EmployeeForm(forms.ModelForm):
@@ -53,3 +55,25 @@ class ProjectForm(forms.ModelForm):
             'image',
         ]
 
+
+class IssueForm(forms.ModelForm):
+
+    class Meta:
+        model = Issue
+        fields = [
+            'i_id',
+            'i_type',
+            'i_extra',
+            'i_content',
+            'pIssue',
+        ]
+
+class SubtaskForm(forms.ModelForm):
+
+    class Meta:
+        model = Subtask
+        fields = [
+            'sub_id',
+            'sub_content',
+            'iIssue',
+        ]
