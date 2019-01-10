@@ -163,6 +163,15 @@ class Helps(models.Model):
     cHelps = models.ForeignKey(Company, verbose_name='Which Company Helps (ID)')
 
 
+class Other(models.Model):
+    o_studyproject = models.ForeignKey(Project, verbose_name='Works Project ID')
+    eOther = models.ForeignKey(Employee, unique=True, primary_key=True, serialize=False, verbose_name='Employee')
+
+
+class Head(models.Model):
+    eHead = models.ForeignKey(Employee, unique=True, primary_key=True, serialize=False, verbose_name='Employee')
+    pManage = models.ForeignKey(Project, verbose_name='Manages Project ID')
+    h_degree = models.IntegerField(verbose_name='Head Degree')
 
 
 class Issue(models.Model):
@@ -171,6 +180,7 @@ class Issue(models.Model):
     i_extra = RichTextField(verbose_name='Issue Notes')
     i_content = RichTextField(verbose_name='Issue Content')
     pIssue = models.ForeignKey(Project, verbose_name='Project ID')
+    i_work = models.ForeignKey(Other,verbose_name='Assign Employee')
     i_slug = models.SlugField(unique=True, editable=False, max_length=130)
 
     def __str__(self):
@@ -241,14 +251,7 @@ class Subtask(models.Model):
         ordering = ['sub_id']
 
 
-class Other(models.Model):
-    o_studyproject = models.ForeignKey(Project, verbose_name='Works Project ID')
-    eOther = models.ForeignKey(Employee, unique=True, primary_key=True, serialize=False, verbose_name='Employee')
 
-
-class Head(models.Model):
-    eHead = models.ForeignKey(Employee, unique=True, primary_key=True, serialize=False, verbose_name='Employee')
-    h_degree = models.IntegerField(verbose_name='Head Degree')
 
 
 class ProjectPlan(models.Model):
