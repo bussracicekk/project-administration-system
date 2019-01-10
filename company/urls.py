@@ -25,4 +25,16 @@ urlpatterns = [
     url(r'^(?P<p_slug>[\w-]+)/updateP/$', project_update, name='updateP'),
     url(r'^(?P<p_slug>[\w-]+)/deleteP/$', project_delete, name='deleteP'),
 
+    url(r'^issues/$', issue_index, name='indexI'),
+    url(r'^issue/add/$', issue_create, name='createI'),
+    url(r'^(?P<i_slug>[\w-]+)/detailI/$', issue_detail, name='detailI'),
+    url(r'^(?P<i_slug>[\w-]+)/updateI/$', issue_update, name='updateI'),
+    url(r'^(?P<i_slug>[\w-]+)/deleteI/$', issue_delete, name='deleteI'),
+
+    url(r'^subtasks/$', subtask_index, name='indexSub'),
+    url(r'^subtask/add/$', subtask_create, name='createSub'),
+    url(r'^(?P<sub_slug>[\w-]+)/detailSub/$', subtask_detail, name='detailSub'),
+    url(r'^(?P<sub_slug>[\w-]+)/updateSub/$', subtask_update, name='updateSub'),
+    url(r'^(?P<sub_slug>[\w-]+)/deleteSub/$', subtask_delete, name='deleteSub'),
+
 ]
