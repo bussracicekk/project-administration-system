@@ -2,7 +2,9 @@
 
 {% block body %}
     <div class="container">
-        <p><a href="{% url 'app:createI' %}" class="btn btn-primary" role="button">New Issue Add</a></p>
+        <p><a href="{% url 'app:createI' %}" class="btn btn-primary" role="button">New Issue Add</a>
+            <a href="{% url 'app:indexSub' %}" class="btn btn-primary" role="button">Subtasks of Issues</a>
+        </p>
     {% for issue in issues %}
         <div class="row">
             <div class="col-md-6 col-md-offset-3">
