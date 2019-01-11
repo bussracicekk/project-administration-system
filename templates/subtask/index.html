@@ -3,7 +3,7 @@
 {% block body %}
     <div class="container">
         <p><a href="{% url 'app:createSub' %}" class="btn btn-primary" role="button">New Subtask Add</a></p>
-    {% for issue in issues %}
+    {% for subtask in subtasks %}
         <div class="row">
             <div class="col-md-6 col-md-offset-3">
                 <div class="thumbnail">
