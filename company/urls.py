@@ -27,14 +27,14 @@ urlpatterns = [
 
     url(r'^issues/$', issue_index, name='indexI'),
     url(r'^issue/add/$', issue_create, name='createI'),
-    url(r'^(?P<i_slug>[\w-]+)/detailI/$', issue_detail, name='detailI'),
-    url(r'^(?P<i_slug>[\w-]+)/updateI/$', issue_update, name='updateI'),
-    url(r'^(?P<i_slug>[\w-]+)/deleteI/$', issue_delete, name='deleteI'),
+    url(r'^(?P<id>\d+)/detailI/$', issue_detail, name='detailI'),
+    url(r'^(?P<id>\d+)/updateI/$', issue_update, name='updateI'),
+    url(r'^(?P<id>\d+)/deleteI/$', issue_delete, name='deleteI'),
 
     url(r'^subtasks/$', subtask_index, name='indexSub'),
     url(r'^subtask/add/$', subtask_create, name='createSub'),
-    url(r'^(?P<sub_slug>[\w-]+)/detailSub/$', subtask_detail, name='detailSub'),
-    url(r'^(?P<sub_slug>[\w-]+)/updateSub/$', subtask_update, name='updateSub'),
-    url(r'^(?P<sub_slug>[\w-]+)/deleteSub/$', subtask_delete, name='deleteSub'),
+    url(r'^(?P<id>\d+)/detailSub/$', subtask_detail, name='detailSub'),
+    url(r'^(?P<id>\d+)/updateSub/$', subtask_update, name='updateSub'),
+    url(r'^(?P<id>\d+)/deleteSub/$', subtask_delete, name='deleteSub'),
 
 ]
