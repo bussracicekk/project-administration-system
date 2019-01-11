@@ -237,8 +237,8 @@ def issue_index(request):
     return render(request, 'issue/index.html', {'issues': issues})
 
 
-def issue_detail(request, i_slug):
-    issues = get_object_or_404(Project, i_slug=i_slug)
+def issue_detail(request, id):
+    issues = get_object_or_404(Issue, i_id=id)
     context = {
         'issue': issues,
     }
@@ -259,8 +259,8 @@ def issue_create(request):
     return render(request, 'issue/form.html', context)
 
 
-def issue_update(request, i_slug):
-    issues = get_object_or_404(Issue, i_slug=i_slug)
+def issue_update(request, id):
+    issues = get_object_or_404(Issue, i_id=id)
     form = IssueForm(request.POST or None, request.FILES or None, instance=issues)
     if form.is_valid():
         form.save()
@@ -273,8 +273,8 @@ def issue_update(request, i_slug):
     return render(request, 'issue/update.html', context)
 
 
-def issue_delete(request, i_slug):
-    issues = get_object_or_404(Issue, i_slug=i_slug)
+def issue_delete(request, id):
+    issues = get_object_or_404(Issue, i_id=id)
     issues.delete()
     return redirect('app:indexI')
 
@@ -299,8 +299,8 @@ def subtask_index(request):
     return render(request, 'subtask/index.html', {'subtasks': subtasks})
 
 
-def subtask_detail(request, sub_slug):
-    subtasks = get_object_or_404(Subtask, sub_slug=sub_slug)
+def subtask_detail(request, id):
+    subtasks = get_object_or_404(Subtask, sub_id=id)
     context = {
         'subtask': subtasks,
     }
@@ -321,9 +321,9 @@ def subtask_create(request):
     return render(request, 'subtask/form.html', context)
 
 
-def subtask_update(request, sub_slug):
-    subtasks = get_object_or_404(Subtask, sub_slug=sub_slug)
-    form = SubtaskForm(request.POST or None, request.FILES or None, instance=issues)
+def subtask_update(request, id):
+    subtasks = get_object_or_404(Subtask, sub_id=id)
+    form = SubtaskForm(request.POST or None, request.FILES or None, instance=subtasks)
     if form.is_valid():
         form.save()
         messages.success(request, "Subtask is updated, successfully!")
@@ -335,8 +335,8 @@ def subtask_update(request, sub_slug):
     return render(request, 'subtask/update.html', context)
 
 
-def subtask_delete(request, sub_slug):
-    subtasks = get_object_or_404(Subtask, sub_slug=sub_slug)
+def subtask_delete(request, id):
+    subtasks = get_object_or_404(Subtask, sub_id=id)
     subtasks.delete()
     return redirect('app:indexSub')
 
