@@ -2,7 +2,9 @@
 
 {% block body %}
     <div class="container">
-        <p><a href="{% url 'app:createP' %}" class="btn btn-primary" role="button">New Project Add</a></p>
+        <p> <a href="{% url 'app:createP' %}" class="btn btn-primary" role="button">New Project Add</a>
+            <a href="{% url 'app:indexI' %}" class="btn btn-primary" role="button">Issues of Projects</a>
+        </p>
     {% for project in projects %}
         <div class="row">
             <div class="col-md-6 col-md-offset-3">
