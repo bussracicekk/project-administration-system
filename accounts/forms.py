@@ -1,82 +1,19 @@
 from django import forms
-from .models import Employee
-from .models import Department
-from .models import Project
-from .models import Issue
-from .models import Subtask
+from django.contrib.auth import authenticate
 
 
-class EmployeeForm(forms.ModelForm):
+class LoginForm(forms.Form):
+    username = forms.CharField(max_length=15, label='User Name')
+    password = forms.CharField(max_length=10, label='Password', widget=forms.PasswordInput)
+    usertype = forms.CharField(max_length=10, label='User Type')
 
-    class Meta:
-        model = Employee
-        fields = [
-            'e_id',
-            'e_name',
-            'e_surname',
-            'e_password',
-            'e_email',
-            'e_phone',
-            'e_degree',
-            'e_salary',
-            'eCompany',
-            'eDepartment',
-            'Image'
-        ]
-        
-        
-class DepartmentForm(forms.ModelForm):
+    def clean(self):
+        username = self.cleaned_data.get('username')
+        password = self.cleaned_data.get('password')
+        usertype = self.cleaned_data.get('usertype')
+        if username and password:
+            user = authenticate(username=username, password=password, useryype=usertype)
+            if not user:
+                raise forms.ValidationError('Username or password is not correct')
+            return super(LoginForm, self).clean()
 
-    class Meta:
-        model = Department
-        fields = [
-            'd_id',
-            'd_name',
-            'd_capacity',
-            'd_phone',
-            'd_password',
-            'dCompany',
-        ]
-
-
-class ProjectForm(forms.ModelForm):
-
-    class Meta:
-        model = Project
-        fields = [
-            'p_id',
-            'p_startdate',
-            'p_enddate',
-            'p_title',
-            'p_situation',
-            'cProject',
-            'dProject',
-            'eProject',
-            'image',
-        ]
-
-
-class IssueForm(forms.ModelForm):
-
-    class Meta:
-        model = Issue
-        fields = [
-            'i_id',
-            'i_type',
-            'i_extra',
-            'i_content',
-            'pIssue',
-            'i_work',
-            'i_work2',
-        ]
-
-class SubtaskForm(forms.ModelForm):
-
-    class Meta:
-        model = Subtask
-        fields = [
-            'sub_id',
-            'sub_content',
-            'iIssue',
-            's_work',
-        ]
