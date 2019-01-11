@@ -6,17 +6,8 @@
       <div class="container-fluid">
             <div class="row" style="="margin-botto: 30px; >
 
-                  {% if not request.user.is_authenticated %}
-                        <p><a href="{% url 'account:login' %}" class="btn btn-primary" role="button" style="padding-top:20px; margin-botto: 20px; margin-left:1200px; padding-left:20px; padding-bottom:20px">Sign In  </a></p>
-                  {% else %}
-                        <p><a href="{% url 'account:logout' %}" class="btn btn-primary" role="button" style="padding-top:20px; margin-botto: 20px; margin-left:1200px; padding-left:20px; padding-bottom:20px">Sign Out </a></p>
-                  {% endif %}
-                  
-                  <div class="col-md-3 col-sm-6" style="background-color: pink; height: 100px;">1.project</div>
-                  <div class="col-md-3 col-sm-6" style="background-color: yellow; height: 100px;">2.project</div>
-                  <div class="col-md-3 col-sm-6" style="background-color: #66CDAA; height: 100px;">3.project</div>
-                  <div class="col-md-3 col-sm-6" style="background-color: #00FF00; height: 100px;">4.project</div>
             </div>
       </div>
+
 
 {% endblock %}
