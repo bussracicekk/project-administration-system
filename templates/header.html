@@ -32,15 +32,21 @@
             <ul class="nav navbar-nav navbar-right">
                 {% if not request.user.is_authenticated %}
                     <li><a href="{% url 'home' %}">Home Page</a></li>
+                    <li><a href="{% url 'account:login' %}">Sign In</a></li>
                 {% endif %}
                 {% if request.user.is_authenticated %}
-                    <li><a href="{% url 'app:homeC' %}">Home</a></li>
+                    {% if not request.user.get_all_permissions == "set()" %}
+                        <li><a href="{% url 'app:homeC' %}">Home</a></li>
+                        <li><a href="{% url 'app:indexD' %}">Department</a></li>
+                        <li><a href="{% url 'app:index' %}">Employee</a></li>
+                        <li><a href="{% url 'app:indexP' %}">Project</a></li>
+                        <li><a href="{% url 'account:logout' %}">Sign Out</a></li>
+                    {% else %}
+                        <li><a href="{% url 'account:logout' %}">Sign Out</a></li>
+                    {% endif %}
                 {% endif %}
-                <li><a href="{% url 'app:indexD' %}">Department</a></li>
-                <li><a href="{% url 'app:index' %}">Employee</a></li>
-                <li><a href="{% url 'app:indexP' %}">Project</a></li>
-                <li><a href="{% url 'app:indexI' %}">Issue</a></li>
-                <li><a href="{% url 'app:indexSub' %}">Subtask</a></li>
+
+
                 <!-- <li><a href="#">Customer</a></li> --->
 
 
