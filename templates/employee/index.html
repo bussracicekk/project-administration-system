@@ -2,7 +2,10 @@
 
 {% block body %}
     <div class="container">
-        <p><a href="{% url 'app:create' %}" class="btn btn-primary" role="button">New Employee Add</a></p>
+        <p><a href="{% url 'app:create' %}" class="btn btn-primary" role="button">New Employee Add</a>
+            <a href="{% url 'app:create' %}" class="btn btn-primary" role="button">Managers</a>
+            <a href="{% url 'app:create' %}" class="btn btn-primary" role="button">Other Employees</a>
+        </p>
     {% for employee in employees %}
         <div class="row">
             <div class="col-md-6 col-md-offset-3">
