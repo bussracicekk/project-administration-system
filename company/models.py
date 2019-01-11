@@ -2,6 +2,8 @@ from django.db import models
 from django.urls import reverse
 from django.utils.text import slugify
 from ckeditor.fields import RichTextField
+from django.contrib.auth.models import User
+from django.db.models.signals import post_save
 # Create your models here.
 
 
@@ -107,6 +109,12 @@ class Employee(models.Model):
         ordering = ['eCompany', 'eDepartment', '-e_degree']
 
 
+def create_profile(sender, **kwargs):
+    if kwargs['created']:
+        emp = Employee.objects.create(user=kwargs['instance'])
+
+#büşra burda user olan yerlere employyee yazıp denedim ama olmuyor öyle
+post_save.connect(create_profile, sender=User)
 
 
 class Project(models.Model):
