@@ -14,8 +14,9 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db.models import Q
 from django.db import transaction, IntegrityError
 from django.utils.text import slugify
+#########################################################################
 
-######################################################################
+#########################################################################
 def employee_index(request):
     employees_list = Employee.objects.all()
     query = request.GET.get('q')
@@ -91,10 +92,9 @@ def employee_delete(request, e_slug):
     employees = get_object_or_404(Employee, e_slug=e_slug)
     employees.delete()
     return redirect('app:index')
+############################################################################
 
-##########################################################
-
-
+############################################################################
 def department_index(request):
     departments_list = Department.objects.all()
     query = request.GET.get('q')
@@ -159,10 +159,9 @@ def department_delete(request, d_slug):
     departments = get_object_or_404(Department, d_slug=d_slug)
     departments.delete()
     return redirect('app:indexD')
+###########################################################################
 
-##########################################################
-
-
+###########################################################################
 def project_index(request):
     projects_list = Project.objects.all()
     query = request.GET.get('q')
@@ -224,9 +223,9 @@ def project_delete(request, p_slug):
     projects = get_object_or_404(Project, p_slug=p_slug)
     projects.delete()
     return redirect('app:indexP')
+##########################################################################
 
-##########################################################
-
+##########################################################################
 def issue_index(request):
     issues_list = Issue.objects.all()
     query = request.GET.get('q')
@@ -288,11 +287,9 @@ def issue_delete(request, id):
     issues = get_object_or_404(Issue, i_id=id)
     issues.delete()
     return redirect('app:indexI')
+##############################################################################
 
-
-##########################################################
-
-
+##############################################################################
 def subtask_index(request):
     subtasks_list = Subtask.objects.all()
     query = request.GET.get('q')
@@ -352,9 +349,9 @@ def subtask_delete(request, id):
     subtasks = get_object_or_404(Subtask, sub_id=id)
     subtasks.delete()
     return redirect('app:indexSub')
+#############################################################################
 
-
-##########################################################
+#############################################################################
 def head_index(request):
     employees_list = Employee.objects.filter(role='Head')
     query = request.GET.get('q')
@@ -376,8 +373,9 @@ def head_index(request):
         # If page is out of range (e.g. 9999), deliver last page of results.
         employees = paginator.page(paginator.num_pages)
     return render(request, 'employee/index.html', {'employees': employees})
+#############################################################################
 
-##########################################################
+#############################################################################
 def other_index(request):
     employees_list = Employee.objects.filter(role='Other')
     query = request.GET.get('q')
@@ -399,13 +397,33 @@ def other_index(request):
         # If page is out of range (e.g. 9999), deliver last page of results.
         employees = paginator.page(paginator.num_pages)
     return render(request, 'employee/index.html', {'employees': employees})
-##########################################################
+############################################################################
+
+############################################################################
 def company_view(request):
     #return HttpResponse('<b>Welcome</b>')
     return render(request, 'company/company.html', {})
-##########################################################
+############################################################################
 
-##########################################################
+############################################################################
 def admin_view(request):
     #return HttpResponse('<b>Welcome</b>')
     return render(request, 'admin/admin.html', {})
+############################################################################
+def projectC_index(request):
+    projects_list = Project.objects.all()
+    query = request.GET.get('q')
+    if query:
+        projects_list = projects_list.filter(p_title__icontains=query)
+    paginator = Paginator(projects_list, 5)  # Show 25 contacts per page
+
+    page = request.GET.get('page')
+    try:
+        projects = paginator.page(page)
+    except PageNotAnInteger:
+        # If page is not an integer, deliver first page.
+        projects = paginator.page(1)
+    except EmptyPage:
+        # If page is out of range (e.g. 9999), deliver last page of results.
+        projects = paginator.page(paginator.num_pages)
+    return render(request, 'project/projectC.html', {'projects': projects})
