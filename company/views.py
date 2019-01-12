@@ -12,6 +12,7 @@ from .forms import SubtaskForm
 from django.contrib import messages
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db.models import Q
+from django.db import transaction, IntegrityError
 from django.utils.text import slugify
 
 
@@ -46,7 +47,7 @@ def employee_detail(request, e_slug):
 
     return render(request, 'employee/detail.html', context)
 
-
+@transaction.atomic
 def employee_create(request):
 
     # if request.method == "POST":
@@ -60,24 +61,26 @@ def employee_create(request):
 
     form = EmployeeForm(request.POST or None)
     if form.is_valid():
-        employees = form.save()
-        messages.success(request, "Employee is created, successfully!")
-        return HttpResponseRedirect(employees.get_absolute_url())
-
+        try:
+            with transaction.atomic():
+                employees = form.save(commit=True)
+                messages.success(request, "Employee is created, successfully!")
+                return HttpResponseRedirect(employees.get_absolute_url())
+        except IntegrityError:
+            messages.ValidationError(request, "Employee is not created!")
     context = {
         'form': form,
     }
     return render(request, 'employee/form.html', context)
 
-
+@transaction.non_atomic_requests
 def employee_update(request, e_slug):
     employees = get_object_or_404(Employee, e_slug=e_slug)
     form = EmployeeForm(request.POST or None, instance=employees)
     if form.is_valid():
-        form.save()
+        form.save(commit=True)
         messages.success(request, "Employee is updated, successfully!")
-        return HttpResponseRedirect(employees.get_absolute_url())
-
+        return HttpResponseRedirect(employees.get_update_url())
     context = {
         'form': form,
     }
@@ -120,28 +123,32 @@ def department_detail(request, d_slug):
 
     return render(request, 'department/detail.html', context)
 
-
+@transaction.atomic
 def department_create(request):
     form = DepartmentForm(request.POST or None)
     if form.is_valid():
-        departments = form.save()
-        messages.success(request, "Department is created, successfully!")
-        return HttpResponseRedirect(departments.get_department_url())
+        try:
+            with transaction.atomic():
+                departments = form.save(commit=True)
+                messages.success(request, "Department is created, successfully!")
+                return HttpResponseRedirect(departments.get_department_url())
+        except IntegrityError:
+            messages.ValidationError(request, "Department is not created!")
+
 
     context = {
         'form': form,
     }
     return render(request, 'department/form.html', context)
 
-
+@transaction.non_atomic_requests
 def department_update(request, d_slug):
     departments = get_object_or_404(Department, d_slug=d_slug)
     form = DepartmentForm(request.POST or None, instance=departments)
     if form.is_valid():
-        form.save()
+        form.save(commit=True)
         messages.success(request, "Department is updated, successfully!")
-        return HttpResponseRedirect(departments.get_department_url())
-
+        return HttpResponseRedirect(departments.get_updateD_url())
     context = {
         'form': form,
     }
@@ -183,28 +190,30 @@ def project_detail(request, p_slug):
 
     return render(request, 'project/detail.html', context)
 
-
+@transaction.atomic
 def project_create(request):
     form = ProjectForm(request.POST or None, request.FILES or None)
     if form.is_valid():
-        projects = form.save()
-        messages.success(request, "Project is created, successfully!")
-        return HttpResponseRedirect(projects.get_project_url())
-
+        try:
+            with transaction.atomic:
+                projects = form.save(commit=True)
+                messages.success(request, "Project is created, successfully!")
+                return HttpResponseRedirect(projects.get_project_url())
+        except IntegrityError:
+            messages.ValidationError(request, "Project is not created!")
     context = {
         'form': form,
     }
     return render(request, 'project/form.html', context)
 
-
+@transaction.non_atomic_requests
 def project_update(request, p_slug):
     projects = get_object_or_404(Project, p_slug=p_slug)
     form = ProjectForm(request.POST or None, request.FILES or None, instance=projects)
     if form.is_valid():
-        form.save()
+        form.save(commit=True)
         messages.success(request, "Project is updated, successfully!")
         return HttpResponseRedirect(projects.get_project_url())
-
     context = {
         'form': form,
     }
@@ -245,28 +254,30 @@ def issue_detail(request, id):
 
     return render(request, 'issue/detail.html', context)
 
-
+@transaction.atomic
 def issue_create(request):
     form = IssueForm(request.POST or None, request.FILES or None)
     if form.is_valid():
-        issues = form.save()
-        messages.success(request, "Issue is created, successfully!")
-        return HttpResponseRedirect(issues.get_issue_url())
-
+        try:
+            with transaction.atomic:
+                issues = form.save(commit=True)
+                messages.success(request, "Issue is created, successfully!")
+                return HttpResponseRedirect(issues.get_issue_url())
+        except IntegrityError:
+            messages.ValidationError(request, "Issue is not created!")
     context = {
         'form': form,
     }
     return render(request, 'issue/form.html', context)
 
-
+@transaction.non_atomic_requests
 def issue_update(request, id):
     issues = get_object_or_404(Issue, i_id=id)
     form = IssueForm(request.POST or None, request.FILES or None, instance=issues)
     if form.is_valid():
-        form.save()
+        form.save(commit=True)
         messages.success(request, "Issue is updated, successfully!")
         return HttpResponseRedirect(issues.get_issue_url())
-
     context = {
         'form': form,
     }
@@ -307,28 +318,30 @@ def subtask_detail(request, id):
 
     return render(request, 'subtask/detail.html', context)
 
-
+@transaction.atomic
 def subtask_create(request):
     form = SubtaskForm(request.POST or None, request.FILES or None)
     if form.is_valid():
-        subtasks = form.save()
-        messages.success(request, "Subtask is created, successfully!")
-        return HttpResponseRedirect(subtasks.get_subtask_url())
-
+        try:
+            with transaction.atomic:
+                subtasks = form.save()
+                messages.success(request, "Subtask is created, successfully!")
+                return HttpResponseRedirect(subtasks.get_subtask_url())
+        except IntegrityError:
+            messages.ValidationError(request, "Subtask is not created!")
     context = {
         'form': form,
     }
     return render(request, 'subtask/form.html', context)
 
-
+@transaction.non_atomic_requests
 def subtask_update(request, id):
     subtasks = get_object_or_404(Subtask, sub_id=id)
     form = SubtaskForm(request.POST or None, request.FILES or None, instance=subtasks)
     if form.is_valid():
-        form.save()
+        form.save(commit=True)
         messages.success(request, "Subtask is updated, successfully!")
         return HttpResponseRedirect(subtasks.get_subtask_url())
-
     context = {
         'form': form,
     }
