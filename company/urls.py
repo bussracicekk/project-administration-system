@@ -43,6 +43,7 @@ urlpatterns = [
     url(r'^(?P<p_slug>[\w-]+)/detailP/$', project_detail, name='detailP'),
     url(r'^(?P<p_slug>[\w-]+)/updateP/$', project_update, name='updateP'),
     url(r'^(?P<p_slug>[\w-]+)/deleteP/$', project_delete, name='deleteP'),
+    url(r'^projectP/$', projectC_index, name='projectP'),
     #######################################################################
 
     #######################################################################
