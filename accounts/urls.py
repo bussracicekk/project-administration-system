@@ -8,5 +8,7 @@ urlpatterns = [
     url(r'^login/$', login_view, name='login'),
 
     url(r'^logout/$', logout_view, name="logout"),
+
     url(r'^password/$', change_password, name='Change Password'),
+
 ]
