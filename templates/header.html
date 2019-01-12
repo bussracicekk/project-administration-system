@@ -37,13 +37,17 @@
                     <li><a href="{% url 'account:login' %}" style="color: white">Sign In</a></li>
                 {% endif %}
                 {% if request.user.is_authenticated %}
-                    {% if not request.user.is_Company %}
+                    {% if request.user.is_superuser %}
                         <li><a href="{% url 'app:homeC' %}" style="color: white">Home</a></li>
                         <li><a href="{% url 'app:indexD' %}" style="color: white">Department</a></li>
                         <li><a href="{% url 'app:index' %}" style="color: white">Employee</a></li>
                         <li><a href="{% url 'app:indexP' %}" style="color: white">Project</a></li>
                         <li><a href="{% url 'account:logout' %}" style="color: white">Sign Out</a></li>
                     {% else %}
+                        <li><a href="{% url 'app:homeA' %}" style="color: white">Home</a></li>
+                        <li><a href="{% url 'app:indexD' %}" style="color: white">Department</a></li>
+                        <li><a href="{% url 'app:index' %}" style="color: white">Employee</a></li>
+                        <li><a href="{% url 'app:indexP' %}" style="color: white">Project</a></li>
                         <li><a href="{% url 'account:logout' %}" style="color: white">Sign Out</a></li>
                     {% endif %}
                 {% endif %}
