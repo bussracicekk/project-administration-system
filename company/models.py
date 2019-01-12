@@ -1,14 +1,13 @@
 from django.db import models
 from django.urls import reverse
-from django.utils.text import slugify
 from ckeditor.fields import RichTextField
+from django.utils.text import slugify
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
-# Create your models here.
 
 
 class Company(models.Model):
-    c_id = models.IntegerField(unique=True, primary_key=True, verbose_name='Company ID')
+    user = models.OneToOneField(User)
     c_name = models.CharField(max_length=30, verbose_name='Company Name')
     c_email = models.EmailField(verbose_name='Company E-mail')
     c_address = RichTextField(verbose_name='Company Address')
@@ -18,12 +17,18 @@ class Company(models.Model):
     def __str__(self):
         return self.c_name
 
+    def create_profile(sender, **kwargs):
+        if kwargs['created']:
+            user_profile = Company.objects.create(user=kwargs['instance'])
+
+    post_save.connect(create_profile, sender=User)
+
 class ForeignCompany(Company):
     f_rating = models.IntegerField(verbose_name='Foreign Company Rating')
 
 
 class Department(models.Model):
-    d_id = models.IntegerField(primary_key=True, verbose_name='Department ID')
+    d_id = models.AutoField(primary_key=True, verbose_name='Department ID')
     d_name = models.CharField(max_length=30, verbose_name='Department Name')
     d_capacity = models.IntegerField(verbose_name='Department Capacity')
     d_phone = models.IntegerField(verbose_name='Department Phone')
@@ -64,7 +69,7 @@ class Department(models.Model):
 
 
 class Employee(models.Model):
-    e_id = models.IntegerField(primary_key=True, serialize=False, verbose_name='Employee ID')
+    e_id = models.AutoField(primary_key=True, serialize=False, verbose_name='Employee ID')
     e_name = models.CharField(max_length=30, verbose_name='Name')
     e_surname = models.CharField(max_length=30, verbose_name='Surname')
     e_password = models.CharField(max_length=6, verbose_name='Password')
@@ -109,16 +114,10 @@ class Employee(models.Model):
         ordering = ['eCompany', 'eDepartment', '-e_degree']
 
 
-def create_profile(sender, **kwargs):
-    if kwargs['created']:
-        emp = Employee.objects.create(user=kwargs['instance'])
-
-#büşra burda user olan yerlere employyee yazıp denedim ama olmuyor öyle
-post_save.connect(create_profile, sender=User)
 
 
 class Project(models.Model):
-    p_id = models.IntegerField(primary_key=True, verbose_name='Project ID')
+    p_id = models.AutoField(primary_key=True, verbose_name='Project ID')
     p_startdate = models.DateTimeField(verbose_name='Project Start Date')
     p_enddate = models.DateTimeField(verbose_name='Project End Date')
     p_title = models.CharField(max_length=75, verbose_name='Project Title')
@@ -184,14 +183,13 @@ class Head(models.Model):
 
 
 class Issue(models.Model):
-    i_id = models.IntegerField(unique=True, primary_key=True, verbose_name='Issue ID')
+    i_id = models.AutoField(unique=True, primary_key=True, verbose_name='Issue ID')
     i_type = models.CharField(max_length=30, verbose_name='Issue Type')
     i_extra = RichTextField(verbose_name='Issue Notes')
     i_content = RichTextField(verbose_name='Issue Content')
     pIssue = models.ForeignKey(Project, verbose_name='Project Name')
     i_work = models.ForeignKey(Employee, null=True, related_name='i_work', verbose_name='Assign Employee 1')
     i_work2 = models.ForeignKey(Employee, blank=True, related_name='i_work2', verbose_name='Assign Employee 2')
-    #i_slug = models.SlugField(unique=True, editable=False, max_length=130)
     def __str__(self):
         return self.i_type
 
@@ -212,7 +210,7 @@ class Issue(models.Model):
 
 
 class Subtask(models.Model):
-    sub_id = models.IntegerField(unique=True, primary_key=True, verbose_name='Subtask ID')
+    sub_id = models.AutoField(unique=True, primary_key=True, verbose_name='Subtask ID')
     sub_content = RichTextField(verbose_name='Subtask Content')
     iIssue = models.ForeignKey(Issue, verbose_name='Issue ID')
     s_work = models.ForeignKey(Employee, verbose_name='Assign Employee')
@@ -240,7 +238,7 @@ class Subtask(models.Model):
 
 
 class ProjectPlan(models.Model):
-    plan_id = models.IntegerField(unique=True, primary_key=True, verbose_name='Plan ID')
+    plan_id = models.AutoField(unique=True, primary_key=True, verbose_name='Plan ID')
     plan_type = models.CharField(max_length=30, verbose_name='Plan Type')
     plan_date = models.DateTimeField(verbose_name='Plan Date')
     headMakes = models.ForeignKey(Head, verbose_name='Head ID')
