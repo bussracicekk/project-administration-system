@@ -5,7 +5,7 @@ from django.utils.text import slugify
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 
-
+################################################################################
 class Company(models.Model):
     user = models.OneToOneField(User)
     c_name = models.CharField(max_length=30, verbose_name='Company Name')
@@ -22,11 +22,14 @@ class Company(models.Model):
             user_profile = Company.objects.create(user=kwargs['instance'])
 
     post_save.connect(create_profile, sender=User)
-
+#################################################################################
+    
+#################################################################################
 class ForeignCompany(Company):
     f_rating = models.IntegerField(verbose_name='Foreign Company Rating')
+#################################################################################
 
-
+#################################################################################
 class Department(models.Model):
     d_id = models.AutoField(primary_key=True, verbose_name='Department ID')
     d_name = models.CharField(max_length=30, verbose_name='Department Name')
@@ -66,33 +69,37 @@ class Department(models.Model):
 
     class Meta:
         ordering = ['dCompany']
+#############################################################################
 
-
+#############################################################################
 class EmployeeQuerySet(models.QuerySet):
     def heads(self):
         return self.filter(role='Head')
 
     def others(self):
         return self.filter(role='Other')
+#############################################################################
 
-
+#############################################################################
 class EmployeeManager(models.Manager):
      def get_queryset(self):
          return super(EmployeeManager, self).get_queryset().filter(active=True)
+###############################################################################
 
-
+###############################################################################
 class Other(models.Manager):
     def get_queryset(self):
         return super(Other, self).get_queryset().filter(role='Other')
     #eOther = models.ForeignKey(Employee, unique=True, primary_key=True, serialize=False, verbose_name='Employee')
+################################################################################
 
-
-
+################################################################################
 class Head(models.Manager):
     def get_queryset(self):
         return super(Head, self).get_queryset().filter(role='Head')
+################################################################################
 
-
+################################################################################
 class Employee(models.Model):
     roles_choices = (
         ("Head", "head"),
@@ -147,10 +154,9 @@ class Employee(models.Model):
 
     class Meta:
         ordering = ['eCompany', 'eDepartment', '-e_degree']
+###################################################################################
 
-
-
-
+###################################################################################
 class Project(models.Model):
     p_id = models.AutoField(primary_key=True, verbose_name='Project ID')
     p_startdate = models.DateTimeField(verbose_name='Project Start Date')
@@ -194,8 +200,9 @@ class Project(models.Model):
 
     class Meta:
         ordering = ['p_enddate']
+###################################################################################
 
-
+###################################################################################
 class Helps(models.Model):
     h_price = models.IntegerField(verbose_name='Project Price')
     h_type = models.CharField(max_length=50, verbose_name='Help Type')
@@ -203,8 +210,9 @@ class Helps(models.Model):
     h_timeend = models.DateTimeField(verbose_name='Help Time End')
     pHelps = models.ForeignKey(Project, verbose_name='Which Project Helps (ID)')
     cHelps = models.ForeignKey(Company, verbose_name='Which Company Helps (ID)')
+####################################################################################
 
-
+####################################################################################
 class Issue(models.Model):
     i_id = models.AutoField(unique=True, primary_key=True, verbose_name='Issue ID')
     i_type = models.CharField(max_length=30, verbose_name='Issue Type')
@@ -230,8 +238,9 @@ class Issue(models.Model):
 
     class Meta:
         ordering = ['i_id','pIssue']
+#######################################################################################
 
-
+#######################################################################################
 class Subtask(models.Model):
     sub_id = models.AutoField(unique=True, primary_key=True, verbose_name='Subtask ID')
     sub_content = RichTextField(verbose_name='Subtask Content')
@@ -255,24 +264,28 @@ class Subtask(models.Model):
 
     class Meta:
         ordering = ['sub_id','iIssue']
+#########################################################################################
 
-
+#########################################################################################
 class ProjectPlan(models.Model):
     plan_id = models.AutoField(unique=True, primary_key=True, verbose_name='Plan ID')
     plan_type = models.CharField(max_length=30, verbose_name='Plan Type')
     plan_date = models.DateTimeField(verbose_name='Plan Date')
     headMakes = models.ForeignKey(Employee, verbose_name='Head ID')
     pProjectPlan = models.ForeignKey(Project, verbose_name='Project ID')
+##########################################################################################
 
-
+##########################################################################################
 class WorkFlow(models.Model):
     w_type = models.CharField(max_length=30, verbose_name='Workflow Type')
     w_date = models.DateTimeField(verbose_name='Workflow Date')
+##########################################################################################
 
-
+##########################################################################################
 class Report(models.Model):
     r_type = models.CharField(max_length=30, verbose_name='Report Type')
     r_version = models.CharField(max_length=5, verbose_name="Report Version")
     r_createdate = models.DateTimeField(verbose_name='Report Create Date')
     pReport = models.ForeignKey(Project, verbose_name='Project ID')
     oReport = models.ForeignKey(Employee, verbose_name='Prepare Employee ID')
+###########################################################################################
