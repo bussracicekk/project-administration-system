@@ -1,6 +1,5 @@
 from django.shortcuts import render, HttpResponse, get_object_or_404, HttpResponseRedirect, redirect
 from .models import Employee
-from .models import Company
 from .forms import EmployeeForm
 from .models import Department
 from .forms import DepartmentForm
@@ -14,7 +13,6 @@ from django.contrib import messages
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db.models import Q
 from django.db import transaction, IntegrityError
-from django.contrib.auth.models import User
 from django.utils.text import slugify
 
 ######################################################################
@@ -405,3 +403,9 @@ def other_index(request):
 def company_view(request):
     #return HttpResponse('<b>Welcome</b>')
     return render(request, 'company/company.html', {})
+##########################################################
+
+##########################################################
+def admin_view(request):
+    #return HttpResponse('<b>Welcome</b>')
+    return render(request, 'admin/admin.html', {})
