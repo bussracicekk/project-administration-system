@@ -1,8 +1,9 @@
 from django import forms
 from django.contrib.auth import authenticate
 from django.db import transaction
+####################################################################
 
-
+####################################################################
 class LoginForm(forms.Form):
     username = forms.CharField(max_length=15, label='User Name')
     password = forms.CharField(max_length=10, label='Password', widget=forms.PasswordInput)
@@ -19,3 +20,4 @@ class LoginForm(forms.Form):
                 raise forms.ValidationError('Username or password is not correct')
             return super(LoginForm, self).clean()
 
+#####################################################################
