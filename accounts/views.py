@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from .forms import LoginForm
+from .forms import LoginForm, UserForm
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.contrib.auth import update_session_auth_hash
@@ -23,7 +23,7 @@ def login_view(request):
             return redirect('home')
         if usertype == "admin":
             return redirect('app:homeA')
-    return render(request, 'accounts/form.html', {'form': form})
+    return render(request, 'accounts/form.html', {'form': form, 'title': 'Log In'})
 
 
 def logout_view(request):
@@ -31,6 +31,16 @@ def logout_view(request):
     return redirect('home')
 #############################################################################
 
+#############################################################################
+def user_view(request):
+    form = UserForm(request.POST or None)
+    if form.is_valid():
+        user = form.save(commit=False)
+        password = form.cleaned_data.get('password1')
+        user.set_password(password)
+        user.save()
+        return redirect('app:homeA')
+    return render(request, 'accounts/form.html', {'form': form, 'title': 'Create User'})
 #############################################################################
 @transaction.atomic
 def change_password(request):
