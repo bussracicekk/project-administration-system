@@ -16,8 +16,10 @@
                     <p>Phone: {{ employee.e_phone }}</p>
                     <p>Degree: {{ employee.e_degree }}</p>
                     <p>Salary: {{ employee.e_salary }}</p>
+                    <p>Role: {{employee.role}}</p>
                     <p>Company: {{ employee.eCompany }}</p>
                     <p>Department: {{ employee.eDepartment }}</p>
+                    <p>Active: {{ employee.active }}</p>
                     <p>
                         <a href="{{ employee.get_update_url }}" class="btn btn-default" role="button">Update</a>
                         <a href="{{ employee.get_delete_url }}" class="btn btn-danger" role="button">Delete</a>
