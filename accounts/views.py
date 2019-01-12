@@ -5,7 +5,9 @@ from django.contrib import messages
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.forms import PasswordChangeForm
 from django.db import transaction
+#########################################################################
 
+#########################################################################
 @transaction.atomic
 def login_view(request):
     form = LoginForm(request.POST or None,  request.FILES or None)
@@ -27,7 +29,9 @@ def login_view(request):
 def logout_view(request):
     logout(request)
     return redirect('home')
+#############################################################################
 
+#############################################################################
 @transaction.atomic
 def change_password(request):
     if request.method == 'POST':
@@ -44,3 +48,4 @@ def change_password(request):
     return render(request, 'accounts/changepassword.html', {
         'form': form
     })
+##############################################################################
