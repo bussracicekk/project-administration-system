@@ -68,7 +68,36 @@ class Department(models.Model):
         ordering = ['dCompany']
 
 
+class EmployeeQuerySet(models.QuerySet):
+    def heads(self):
+        return self.filter(role='Head')
+
+    def others(self):
+        return self.filter(role='Other')
+
+
+class EmployeeManager(models.Manager):
+     def get_queryset(self):
+         return super(EmployeeManager, self).get_queryset().filter(active=True)
+
+
+class Other(models.Manager):
+    def get_queryset(self):
+        return super(Other, self).get_queryset().filter(role='Other')
+    #eOther = models.ForeignKey(Employee, unique=True, primary_key=True, serialize=False, verbose_name='Employee')
+
+
+
+class Head(models.Manager):
+    def get_queryset(self):
+        return super(Head, self).get_queryset().filter(role='Head')
+
+
 class Employee(models.Model):
+    roles_choices = (
+        ("Head", "head"),
+        ("Other", "other"),
+    )
     e_id = models.AutoField(primary_key=True, serialize=False, verbose_name='Employee ID')
     e_name = models.CharField(max_length=30, verbose_name='Name')
     e_surname = models.CharField(max_length=30, verbose_name='Surname')
@@ -77,10 +106,16 @@ class Employee(models.Model):
     e_phone = models.IntegerField(verbose_name='Phone')
     e_degree = models.IntegerField(verbose_name='Degree')
     e_salary = models.IntegerField(verbose_name='Salary')
+    role = models.CharField(max_length=30, choices=roles_choices, default="Other")
     eDepartment = models.ForeignKey(Department, verbose_name="Department Name")
     eCompany = models.ForeignKey(Company, verbose_name="Company Name")
     Image = models.ImageField(null=True, blank=True)
     e_slug = models.SlugField(unique=True,editable=False, max_length=130)
+    active = models.BooleanField(default=True)
+    objects = models.Manager()
+    all_employees = EmployeeManager()
+    heads=Head()
+    others=Other()
 
     def __str__(self):
         return "{} {}".format(self.e_name, self.e_surname)
@@ -170,18 +205,6 @@ class Helps(models.Model):
     cHelps = models.ForeignKey(Company, verbose_name='Which Company Helps (ID)')
 
 
-class Other(Employee):
-    o_studyproject = models.ForeignKey(Project, verbose_name='Works Project ID')
-    #eOther = models.ForeignKey(Employee, unique=True, primary_key=True, serialize=False, verbose_name='Employee')
-
-
-
-class Head(models.Model):
-    eHead = models.ForeignKey(Employee, unique=True, primary_key=True, serialize=False, verbose_name='Employee')
-    pManage = models.ForeignKey(Project, verbose_name='Manages Project ID')
-    h_degree = models.IntegerField(verbose_name='Head Degree')
-
-
 class Issue(models.Model):
     i_id = models.AutoField(unique=True, primary_key=True, verbose_name='Issue ID')
     i_type = models.CharField(max_length=30, verbose_name='Issue Type')
@@ -234,14 +257,11 @@ class Subtask(models.Model):
         ordering = ['sub_id','iIssue']
 
 
-
-
-
 class ProjectPlan(models.Model):
     plan_id = models.AutoField(unique=True, primary_key=True, verbose_name='Plan ID')
     plan_type = models.CharField(max_length=30, verbose_name='Plan Type')
     plan_date = models.DateTimeField(verbose_name='Plan Date')
-    headMakes = models.ForeignKey(Head, verbose_name='Head ID')
+    headMakes = models.ForeignKey(Employee, verbose_name='Head ID')
     pProjectPlan = models.ForeignKey(Project, verbose_name='Project ID')
 
 
@@ -255,4 +275,4 @@ class Report(models.Model):
     r_version = models.CharField(max_length=5, verbose_name="Report Version")
     r_createdate = models.DateTimeField(verbose_name='Report Create Date')
     pReport = models.ForeignKey(Project, verbose_name='Project ID')
-    oReport = models.ForeignKey(Other, verbose_name='Prepare Employee ID')
+    oReport = models.ForeignKey(Employee, verbose_name='Prepare Employee ID')
