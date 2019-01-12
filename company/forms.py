@@ -19,9 +19,11 @@ class EmployeeForm(forms.ModelForm):
             'e_phone',
             'e_degree',
             'e_salary',
+            'role',
             'eCompany',
             'eDepartment',
-            'Image'
+            'Image',
+            'active',
         ]
         
         
