@@ -43,6 +43,7 @@
                         <li><a href="{% url 'app:indexD' %}" style="color: white">Department</a></li>
                         <li><a href="{% url 'app:index' %}" style="color: white">Employee</a></li>
                         <li><a href="{% url 'app:indexP' %}" style="color: white">Project</a></li>
+                        <li><a href="{% url 'account:newuser' %}" style="color: white">Create User</a></li>
                         <li><a href="{% url 'account:logout' %}" style="color: white">Sign Out</a></li>
                     {% else %}
                         {% if request.user|is_group:"companys" %}
