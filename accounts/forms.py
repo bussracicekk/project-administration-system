@@ -1,5 +1,6 @@
 from django import forms
 from django.contrib.auth import authenticate
+from django.db import transaction
 
 
 class LoginForm(forms.Form):
@@ -7,12 +8,13 @@ class LoginForm(forms.Form):
     password = forms.CharField(max_length=10, label='Password', widget=forms.PasswordInput)
     usertype = forms.CharField(max_length=10, label='User Type')
 
+    @transaction.atomic
     def clean(self):
         username = self.cleaned_data.get('username')
         password = self.cleaned_data.get('password')
         usertype = self.cleaned_data.get('usertype')
         if username and password:
-            user = authenticate(username=username, password=password, useryype=usertype)
+            user = authenticate(username=username, password=password, usertype=usertype)
             if not user:
                 raise forms.ValidationError('Username or password is not correct')
             return super(LoginForm, self).clean()
