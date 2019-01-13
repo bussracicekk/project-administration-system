@@ -9,16 +9,47 @@ from .forms import Issue
 from .forms import IssueForm
 from .forms import Subtask
 from .forms import SubtaskForm
-from .forms import WorkFlow
-from .forms import WorkflowForm
-from .forms import Plan
-from .forms import PlanForm
 from django.contrib import messages
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db.models import Q
 from django.db import transaction, IntegrityError
 from .models import Company
+from .forms import WorkFlow
+from .forms import WorkflowForm
+from .forms import Plan
+from .forms import PlanForm
 from django.utils.text import slugify
+#########################################################################
+
+#########################################################################
+def company_index(request):
+    companys_list = Company.objects.all()
+    query = request.GET.get('q')
+    if query:
+        companys_list = companys_list.filter(c_name__icontains=query)
+    paginator = Paginator(companys_list, 5)  # Show 25 contacts per page
+
+    page = request.GET.get('page')
+    try:
+        companys = paginator.page(page)
+    except PageNotAnInteger:
+        # If page is not an integer, deliver first page.
+        companys = paginator.page(1)
+    except EmptyPage:
+        # If page is out of range (e.g. 9999), deliver last page of results.
+        companys = paginator.page(paginator.num_pages)
+    return render(request, 'company/index.html', {'companys': companys})
+#########################################################################
+
+#########################################################################
+def company_detail(request, c_id):
+    companys = get_object_or_404(Company, c_id=c_id)
+
+    context = {
+        'company': companys,
+    }
+
+    return render(request, 'company/detail.html', context)
 #########################################################################
 
 #########################################################################
@@ -198,13 +229,9 @@ def project_detail(request, p_slug):
 def project_create(request):
     form = ProjectForm(request.POST or None, request.FILES or None)
     if form.is_valid():
-        try:
-            with transaction.atomic:
-                projects = form.save(commit=True)
-                messages.success(request, "Project is created, successfully!")
-                return HttpResponseRedirect(projects.get_project_url())
-        except IntegrityError:
-            messages.ValidationError(request, "Project is not created!")
+        projects = form.save(commit=True)
+        messages.success(request, "Project is created, successfully!")
+        return HttpResponseRedirect(projects.get_project_url())
     context = {
         'form': form,
     }
@@ -262,13 +289,9 @@ def issue_detail(request, id):
 def issue_create(request):
     form = IssueForm(request.POST or None, request.FILES or None)
     if form.is_valid():
-        try:
-            with transaction.atomic:
-                issues = form.save(commit=True)
-                messages.success(request, "Issue is created, successfully!")
-                return HttpResponseRedirect(issues.get_issue_url())
-        except IntegrityError:
-            messages.ValidationError(request, "Issue is not created!")
+        issues = form.save(commit=True)
+        messages.success(request, "Issue is created, successfully!")
+        return HttpResponseRedirect(issues.get_issue_url())
     context = {
         'form': form,
     }
@@ -324,13 +347,9 @@ def subtask_detail(request, id):
 def subtask_create(request):
     form = SubtaskForm(request.POST or None, request.FILES or None)
     if form.is_valid():
-        try:
-            with transaction.atomic:
-                subtasks = form.save()
-                messages.success(request, "Subtask is created, successfully!")
-                return HttpResponseRedirect(subtasks.get_subtask_url())
-        except IntegrityError:
-            messages.ValidationError(request, "Subtask is not created!")
+        subtasks = form.save()
+        messages.success(request, "Subtask is created, successfully!")
+        return HttpResponseRedirect(subtasks.get_subtask_url())
     context = {
         'form': form,
     }
@@ -404,6 +423,46 @@ def other_index(request):
     return render(request, 'employee/index.html', {'employees': employees})
 ############################################################################
 
+#########################################################################
+def companyuser_index(request):
+    companys_list = Company.objects.filter(role='Company')
+    query = request.GET.get('q')
+    if query:
+        companys_list = companys_list.filter(c_name__icontains=query)
+    paginator = Paginator(companys_list, 5)  # Show 25 contacts per page
+
+    page = request.GET.get('page')
+    try:
+        companys = paginator.page(page)
+    except PageNotAnInteger:
+        # If page is not an integer, deliver first page.
+        companys = paginator.page(1)
+    except EmptyPage:
+        # If page is out of range (e.g. 9999), deliver last page of results.
+        companys = paginator.page(paginator.num_pages)
+    return render(request, 'company/index.html', {'companys': companys})
+#########################################################################
+
+#########################################################################
+def customeruser_index(request):
+    companys_list = Company.objects.filter(role='Customer')
+    query = request.GET.get('q')
+    if query:
+        companys_list = companys_list.filter(c_name__icontains=query)
+    paginator = Paginator(companys_list, 5)  # Show 25 contacts per page
+
+    page = request.GET.get('page')
+    try:
+        companys = paginator.page(page)
+    except PageNotAnInteger:
+        # If page is not an integer, deliver first page.
+        companys = paginator.page(1)
+    except EmptyPage:
+        # If page is out of range (e.g. 9999), deliver last page of results.
+        companys = paginator.page(paginator.num_pages)
+    return render(request, 'company/index.html', {'companys': companys})
+#########################################################################
+
 ############################################################################
 def company_view(request):
     #return HttpResponse('<b>Welcome</b>')
@@ -438,7 +497,7 @@ def projectC_index(request):
         # If page is out of range (e.g. 9999), deliver last page of results.
         projects = paginator.page(paginator.num_pages)
     return render(request, 'project/projectC.html', {'projects': projects})
-
+############################################################################
 
 ##############################################################################
 
@@ -556,8 +615,15 @@ def plan_delete(request, id):
     return redirect('app:indexPlan')
 #############################################################################
 
+
 ############################################################################
 def setting_view(request):
     #return HttpResponse('<b>Welcome</b>')
     return render(request, 'settings/settings.html', {})
+#############################################################################
 
+#############################################################################
+def projectC_delete(request, p_slug):
+    projects = get_object_or_404(Project, p_slug=p_slug)
+    projects.delete()
+    return redirect('app:projectP')
