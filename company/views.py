@@ -13,6 +13,7 @@ from django.contrib import messages
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db.models import Q
 from django.db import transaction, IntegrityError
+from .models import Company
 from django.utils.text import slugify
 #########################################################################
 
@@ -406,6 +407,12 @@ def company_view(request):
 ############################################################################
 
 ############################################################################
+def customer_view(request):
+    #return HttpResponse('<b>Welcome</b>')
+    return render(request, 'customer/customer.html', {})
+############################################################################
+
+############################################################################
 def admin_view(request):
     #return HttpResponse('<b>Welcome</b>')
     return render(request, 'admin/admin.html', {})
@@ -427,3 +434,9 @@ def projectC_index(request):
         # If page is out of range (e.g. 9999), deliver last page of results.
         projects = paginator.page(paginator.num_pages)
     return render(request, 'project/projectC.html', {'projects': projects})
+############################################################################
+
+############################################################################
+def setting_view(request):
+    #return HttpResponse('<b>Welcome</b>')
+    return render(request, 'settings/settings.html', {})
