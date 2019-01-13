@@ -39,7 +39,7 @@ def user_view(request):
         password = form.cleaned_data.get('password1')
         user.set_password(password)
         user.save()
-        return redirect('app:homeA')
+        return redirect(''http://127.0.0.1:8000/admin/auth/user/'')
     return render(request, 'accounts/form.html', {'form': form, 'title': 'Create User'})
 #############################################################################
 @transaction.atomic
