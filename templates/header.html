@@ -40,7 +40,7 @@
                 {% if request.user.is_authenticated %}
                      {% if request.user.is_superuser %}
                         <li><a href="{% url 'app:homeA' %}" style="color: white">Home</a></li>
-                        <li><a href="{% url 'app:indexC' %}" style="color: white">Company</a></li>
+                        <li><a href="{% url 'app:indexC' %}" style="color: white">User</a></li>
                         <li><a href="{% url 'account:newuser' %}" style="color: white">Create User</a></li>
                         <li><a href="{% url 'app:settings' %}" style="color: white">Settings</a></li>
                         <li><a href="{% url 'account:logout' %}" style="color: white">Sign Out</a></li>
