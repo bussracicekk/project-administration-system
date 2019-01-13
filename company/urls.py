@@ -77,4 +77,12 @@ urlpatterns = [
     url(r'^(?P<id>\d+)/updateW/$', workflow_update, name='updateW'),
     url(r'^(?P<id>\d+)/deleteW/$', workflow_delete, name='deleteW'),
     #######################################################################
+
+    #######################################################################
+    url(r'^plans/$', plan_index, name='indexPlan'),
+    url(r'^plan/add/$', plan_create, name='createPlan'),
+    url(r'^(?P<id>\d+)/detailPlan/$', plan_detail, name='detailPlan'),
+    url(r'^(?P<id>\d+)/updatePlan/$', plan_update, name='updatePlan'),
+    url(r'^(?P<id>\d+)/deletePlan/$', plan_delete, name='deletePlan'),
+    #######################################################################
 ]
