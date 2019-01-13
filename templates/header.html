@@ -56,7 +56,7 @@
                         {% endif %}
                         {% if request.user|is_group:"customers" %}
                             <li><a href="{% url 'app:homeCu' %}" style="color: white">Home</a></li>
-                            <li><a href="{% url 'app:indexC' %}" style="color: white">Company</a></li>
+                            <li><a href="{% url 'app:companyuser' %}" style="color: white">Company</a></li>
                             <li><a href="{% url 'app:projectP' %}" style="color: white">Project</a></li>
                             <li><a href="{% url 'app:settings' %}" style="color: white">Settings</a></li>
                             <li><a href="{% url 'account:logout' %}" style="color: white">Sign Out</a></li>
