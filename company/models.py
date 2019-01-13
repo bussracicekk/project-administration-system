@@ -277,8 +277,29 @@ class ProjectPlan(models.Model):
 
 ##########################################################################################
 class WorkFlow(models.Model):
+    w_id = models.AutoField(primary_key=True, verbose_name='Workflow ID')
     w_type = models.CharField(max_length=30, verbose_name='Workflow Type')
     w_date = models.DateTimeField(verbose_name='Workflow Date')
+    w_content = RichTextField(verbose_name='Workflow')
+    def __str__(self):
+        return self.w_id
+
+    def get_workflow_url(self):
+        return reverse('app:detailW', kwargs={'id': self.w_id})
+
+    def get_createW_url(self):
+        return reverse('app:createW')
+
+    def get_updateW_url(self):
+        return reverse('app:updateW', kwargs={'id': self.w_id})
+
+    def get_deleteW_url(self):
+        return reverse('app:deleteW', kwargs={'id': self.w_id})
+
+    class Meta:
+        ordering = ['w_id','w_type']
+
+
 ##########################################################################################
 
 ##########################################################################################
