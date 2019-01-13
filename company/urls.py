@@ -61,4 +61,12 @@ urlpatterns = [
     url(r'^(?P<id>\d+)/updateSub/$', subtask_update, name='updateSub'),
     url(r'^(?P<id>\d+)/deleteSub/$', subtask_delete, name='deleteSub'),
     #######################################################################
+
+    #######################################################################
+    url(r'^workflows/$', workflow_index, name='indexW'),
+    url(r'^workflow/add/$', workflow_create, name='createW'),
+    url(r'^(?P<id>\d+)/detailW/$', workflow_detail, name='detailW'),
+    url(r'^(?P<id>\d+)/updateW/$', workflow_update, name='updateW'),
+    url(r'^(?P<id>\d+)/deleteW/$', workflow_delete, name='deleteW'),
+    #######################################################################
 ]
