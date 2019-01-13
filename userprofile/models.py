@@ -57,6 +57,12 @@ class Company(models.Model):
     def get_company_url(self):
         return reverse('app:detailCompany', kwargs={'c_id': self.c_id})
 
+    def get_updateC_url(self):
+        return reverse('app:updateCompany', kwargs={'c_id': self.c_id})
+
+    def get_deleteC_url(self):
+        return reverse('app:deleteCompany', kwargs={'c_id': self.c_id})
+
     class Meta:
         ordering = ['user','c_name']
 
