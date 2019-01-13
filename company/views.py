@@ -9,6 +9,8 @@ from .forms import Issue
 from .forms import IssueForm
 from .forms import Subtask
 from .forms import SubtaskForm
+from .forms import WorkFlow
+from .forms import WorkflowForm
 from django.contrib import messages
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db.models import Q
@@ -427,3 +429,61 @@ def projectC_index(request):
         # If page is out of range (e.g. 9999), deliver last page of results.
         projects = paginator.page(paginator.num_pages)
     return render(request, 'project/projectC.html', {'projects': projects})
+
+##############################################################################
+
+def workflow_index(request):
+    workflows_list = WorkFlow.objects.all()
+    query = request.GET.get('q')
+    if query:
+        workflows_list = workflows_list.filter(w_id__icontains=query)
+    paginator = Paginator(workflows_list, 5)  # Show 25 contacts per page
+
+    page = request.GET.get('page')
+    try:
+        workflows = paginator.page(page)
+    except PageNotAnInteger:
+        workflows = paginator.page(1)
+    except EmptyPage:
+        workflows = paginator.page(paginator.num_pages)
+    return render(request, 'workflow/index.html', {'workflows': workflows})
+
+
+def workflow_detail(request, id):
+    workflows = get_object_or_404(WorkFlow, w_id=id)
+    context = {
+        'workflow': workflows,
+    }
+
+    return render(request, 'workflow/detail.html', context)
+
+
+def workflow_create(request):
+    form = WorkflowForm(request.POST or None, request.FILES or None)
+    if form.is_valid():
+        workflows = form.save()
+        messages.success(request, "Workflow is created, successfully!")
+        return HttpResponseRedirect(workflows.get_workflow_url())
+    context = {
+        'form': form,
+    }
+    return render(request, 'workflow/form.html', context)
+
+
+def workflow_update(request, id):
+    workflows = get_object_or_404(WorkFlow, w_id=id)
+    form = WorkflowForm(request.POST or None, request.FILES or None, instance=workflows)
+    if form.is_valid():
+        messages.success(request, "Workflow is updated, successfully!")
+        return HttpResponseRedirect(workflows.get_workflow_url())
+    context = {
+        'form': form,
+    }
+    return render(request, 'workflow/update.html', context)
+
+
+def workflow_delete(request, id):
+    workflows = get_object_or_404(WorkFlow, w_id=id)
+    workflows.delete()
+    return redirect('app:indexW')
+#############################################################################
