@@ -13,6 +13,8 @@ class Company(models.Model):
     c_address = RichTextField(verbose_name='Company Address')
     c_phone = models.CharField(max_length=20, verbose_name = 'Company Phone')
     c_password = models.CharField(max_length=6,  verbose_name='Company Password')
+    role = models.CharField(max_length=30, choices=roles_choices, default="ForeignCompany")
+
 
     def __str__(self):
         return self.c_name
@@ -22,12 +24,6 @@ class Company(models.Model):
             user_profile = Company.objects.create(user=kwargs['instance'])
 
     post_save.connect(create_profile, sender=User)
-#################################################################################
-    
-#################################################################################
-class ForeignCompany(Company):
-    f_rating = models.IntegerField(verbose_name='Foreign Company Rating')
-#################################################################################
 
 #################################################################################
 class Department(models.Model):
