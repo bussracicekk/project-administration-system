@@ -2,6 +2,7 @@
 
 {% block body %}
     <div class="container">
+        <p><a href="{% url 'app:createP' %}" class="btn btn-primary" role="button">New Project Request</a></p>
     {% for project in projects %}
         <div class="row">
             <div class="col-md-6 col-md-offset-3">
@@ -10,6 +11,7 @@
                         <h3>{{ project.p_title }}</h3>
                         <p>Company: {{ project.cProject }}</p>
                         <p><a href="{{ project.get_project_url }}" class="btn btn-primary" role="button">Research</a>
+                            <a href="{{ project.get_deletePC_url }}" class="btn btn-primary" role="button">Buy</a>
                         </p>
                     </div>
                 </div>
