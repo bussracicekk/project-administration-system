@@ -4,6 +4,7 @@
     <div class="container">
         <p> <a href="{% url 'app:createP' %}" class="btn btn-primary" role="button">New Project Add</a>
             <a href="{% url 'app:indexI' %}" class="btn btn-primary" role="button">Issues of Projects</a>
+            <a href="{% url 'app:indexPlan' %}" class="btn btn-primary" role="button">Projects Plan</a>
         </p>
     {% for project in projects %}
         <div class="row">
