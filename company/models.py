@@ -153,7 +153,7 @@ class Employee(models.Model):
         return super(Employee, self).save(*args, **kwargs)
 
     class Meta:
-        ordering = ['eCompany', 'eDepartment', '-e_degree']
+        ordering = ['eCompany', 'eDepartment', 'e_degree']
 ###################################################################################
 
 ###################################################################################
