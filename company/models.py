@@ -261,12 +261,30 @@ class Subtask(models.Model):
 #########################################################################################
 
 #########################################################################################
-class ProjectPlan(models.Model):
+class Plan(models.Model):
     plan_id = models.AutoField(unique=True, primary_key=True, verbose_name='Plan ID')
     plan_type = models.CharField(max_length=30, verbose_name='Plan Type')
     plan_date = models.DateTimeField(verbose_name='Plan Date')
-    headMakes = models.ForeignKey(Employee, verbose_name='Head ID')
-    pProjectPlan = models.ForeignKey(Project, verbose_name='Project ID')
+    headMakes = models.ForeignKey(Employee, verbose_name='Employee ID')
+    pPlan = models.ForeignKey(Project, verbose_name='Project ID')
+
+    def __str__(self):
+        return self.plan_id
+
+    def get_plan_url(self):
+        return reverse('app:detailPlan', kwargs={'id': self.plan_id})
+
+    def get_createPlan_url(self):
+        return reverse('app:createPlan')
+
+    def get_updatePlan_url(self):
+        return reverse('app:updatePlan', kwargs={'id': self.plan_id})
+
+    def get_deletePlan_url(self):
+        return reverse('app:deletePlan', kwargs={'id': self.plan_id})
+
+    class Meta:
+        ordering = ['plan_id','plan_type']
 ##########################################################################################
 
 ##########################################################################################
@@ -292,7 +310,6 @@ class WorkFlow(models.Model):
 
     class Meta:
         ordering = ['w_id','w_type']
-
 
 ##########################################################################################
 
