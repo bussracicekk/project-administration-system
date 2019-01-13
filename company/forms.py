@@ -5,6 +5,7 @@ from .models import Project
 from .models import Issue
 from .models import Subtask
 from .models import WorkFlow
+from .models import Plan
 
 
 class EmployeeForm(forms.ModelForm):
@@ -93,4 +94,16 @@ class WorkflowForm(forms.ModelForm):
             'w_type',
             'w_date',
             'w_content',
+        ]
+
+class PlanForm(forms.ModelForm):
+
+    class Meta:
+        model = Plan
+        fields = [
+            'plan_id',
+            'plan_type',
+            'plan_date',
+            'headMakes',
+            'pPlan'
         ]
