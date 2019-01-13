@@ -47,6 +47,7 @@
                     {% else %}
                         {% if request.user|is_group:"companys" %}
                             <li><a href="{% url 'app:homeC' %}" style="color: white">Home</a></li>
+                            <li><a href="{% url 'app:indexW' %}" style="color: white">Workflow</a></li>
                             <li><a href="{% url 'app:indexD' %}" style="color: white">Department</a></li>
                             <li><a href="{% url 'app:index' %}" style="color: white">Employee</a></li>
                             <li><a href="{% url 'app:indexP' %}" style="color: white">Project</a></li>
