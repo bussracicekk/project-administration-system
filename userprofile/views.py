@@ -14,6 +14,7 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db.models import Q
 from django.db import transaction, IntegrityError
 from .models import Company
+from .forms import CompanyForm
 from .forms import WorkFlow
 from .forms import WorkflowForm
 from .forms import Plan
@@ -41,6 +42,19 @@ def company_index(request):
     return render(request, 'company/index.html', {'companys': companys})
 #########################################################################
 
+@transaction.atomic
+def company_update(request, c_id):
+    companys = get_object_or_404(Company, c_id=c_id)
+    form = CompanyForm(request.POST or None, instance=companys)
+    if form.is_valid():
+        form.save(commit=True)
+        messages.success(request, "Company is updated, successfully!")
+        return HttpResponseRedirect(companys.get_updateC_url())
+    context = {
+        'form': form,
+    }
+    return render(request, 'company/form.html', context)
+
 #########################################################################
 def company_detail(request, c_id):
     companys = get_object_or_404(Company, c_id=c_id)
@@ -51,6 +65,10 @@ def company_detail(request, c_id):
 
     return render(request, 'company/detail.html', context)
 #########################################################################
+def company_delete(request, c_id):
+    companys = get_object_or_404(Company, c_id=c_id)
+    companys.delete()
+    return redirect('app:indexC')
 
 #########################################################################
 def employee_index(request):
@@ -440,7 +458,7 @@ def companyuser_index(request):
     except EmptyPage:
         # If page is out of range (e.g. 9999), deliver last page of results.
         companys = paginator.page(paginator.num_pages)
-    return render(request, 'company/index.html', {'companys': companys})
+    return render(request, 'company/indexuser.html', {'companys': companys})
 #########################################################################
 
 #########################################################################
