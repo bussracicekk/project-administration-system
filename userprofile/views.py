@@ -72,7 +72,7 @@ def company_delete(request, c_id):
 
 #########################################################################
 def employee_index(request):
-    employees_list = Employee.objects.all()
+    employees_list = Employee.objects.filter(eCompany__c_name__contains=request.user)
     query = request.GET.get('q')
     if query:
         employees_list = employees_list.filter(
@@ -150,7 +150,7 @@ def employee_delete(request, e_slug):
 
 ############################################################################
 def department_index(request):
-    departments_list = Department.objects.all()
+    departments_list = Department.objects.filter(dCompany__c_name__contains=request.user)
     query = request.GET.get('q')
     if query:
         departments_list = departments_list.filter(d_name__icontains=query)
@@ -217,7 +217,7 @@ def department_delete(request, d_slug):
 
 ###########################################################################
 def project_index(request):
-    projects_list = Project.objects.all()
+    projects_list = Project.objects.filter(cProject__c_name__contains=request.user)
     query = request.GET.get('q')
     if query:
         projects_list = projects_list.filter(p_title__icontains=query)
@@ -277,7 +277,7 @@ def project_delete(request, p_slug):
 
 ##########################################################################
 def issue_index(request):
-    issues_list = Issue.objects.all()
+    issues_list = Issue.objects.filter(cIssue__c_name__contains=request.user)
     query = request.GET.get('q')
     if query:
         issues_list = issues_list.filter(i_id__icontains=query)
@@ -337,7 +337,7 @@ def issue_delete(request, id):
 
 ##############################################################################
 def subtask_index(request):
-    subtasks_list = Subtask.objects.all()
+    subtasks_list = Subtask.objects.filter(sCompany__c_name__contains=request.user)
     query = request.GET.get('q')
     if query:
         subtasks_list = subtasks_list.filter(sub_id__icontains=query)
@@ -395,7 +395,7 @@ def subtask_delete(request, id):
 
 #############################################################################
 def head_index(request):
-    employees_list = Employee.objects.filter(role='Head')
+    employees_list = Employee.objects.filter(eCompany__c_name__contains=request.user, role__contains='Head')
     query = request.GET.get('q')
     if query:
         employees_list = employees_list.filter(
@@ -419,7 +419,7 @@ def head_index(request):
 
 #############################################################################
 def other_index(request):
-    employees_list = Employee.objects.filter(role='Other')
+    employees_list = Employee.objects.filter(eCompany__c_name__contains=request.user, role='Other')
     query = request.GET.get('q')
     if query:
         employees_list = employees_list.filter(
@@ -443,6 +443,25 @@ def other_index(request):
 
 #########################################################################
 def companyuser_index(request):
+    companys_list = Company.objects.filter(role='Company')
+    query = request.GET.get('q')
+    if query:
+        companys_list = companys_list.filter(c_name__icontains=query)
+    paginator = Paginator(companys_list, 5)  # Show 25 contacts per page
+
+    page = request.GET.get('page')
+    try:
+        companys = paginator.page(page)
+    except PageNotAnInteger:
+        # If page is not an integer, deliver first page.
+        companys = paginator.page(1)
+    except EmptyPage:
+        # If page is out of range (e.g. 9999), deliver last page of results.
+        companys = paginator.page(paginator.num_pages)
+    return render(request, 'company/index.html', {'companys': companys})
+#########################################################################
+#########################################################################
+def companyuser2_index(request):
     companys_list = Company.objects.filter(role='Company')
     query = request.GET.get('q')
     if query:
