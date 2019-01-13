@@ -11,6 +11,8 @@ from .forms import Subtask
 from .forms import SubtaskForm
 from .forms import WorkFlow
 from .forms import WorkflowForm
+from .forms import Plan
+from .forms import PlanForm
 from django.contrib import messages
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db.models import Q
@@ -495,7 +497,64 @@ def workflow_delete(request, id):
     workflows.delete()
     return redirect('app:indexW')
 #############################################################################
-############################################################################
+
+##############################################################################
+
+def plan_index(request):
+    plans_list = Plan.objects.all()
+    query = request.GET.get('q')
+    if query:
+        plans_list = plans_list.filter(plan_id__icontains=query)
+    paginator = Paginator(plans_list, 5)  # Show 25 contacts per page
+
+    page = request.GET.get('page')
+    try:
+        plans = paginator.page(page)
+    except PageNotAnInteger:
+        plans = paginator.page(1)
+    except EmptyPage:
+        plans = paginator.page(paginator.num_pages)
+    return render(request, 'plan/index.html', {'plans': plans})
+
+
+def plan_detail(request, id):
+    plans = get_object_or_404(Plan, plan_id=id)
+    context = {
+        'plan': plans,
+    }
+
+    return render(request, 'plan/detail.html', context)
+
+
+def plan_create(request):
+    form = PlanForm(request.POST or None, request.FILES or None)
+    if form.is_valid():
+        plans = form.save()
+        messages.success(request, "Project Plan is created, successfully!")
+        return HttpResponseRedirect(plans.get_plan_url())
+    context = {
+        'form': form,
+    }
+    return render(request, 'plan/form.html', context)
+
+
+def plan_update(request, id):
+    plans = get_object_or_404(Plan, plan_id=id)
+    form = PlanForm(request.POST or None, request.FILES or None, instance=plans)
+    if form.is_valid():
+        messages.success(request, "Project Plan is updated, successfully!")
+        return HttpResponseRedirect(plans.get_plan_url())
+    context = {
+        'form': form,
+    }
+    return render(request, 'plan/update.html', context)
+
+
+def plan_delete(request, id):
+    plans = get_object_or_404(Plan, plan_id=id)
+    plans.delete()
+    return redirect('app:indexPlan')
+#############################################################################
 
 ############################################################################
 def setting_view(request):
