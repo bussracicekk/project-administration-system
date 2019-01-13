@@ -22,6 +22,11 @@ urlpatterns = [
     ######################################################################
 
     ######################################################################
+    url(r'^companys/$', company_index, name='indexC'),
+    url(r'^(?P<c_id>\d+)/detailCompany/$', company_detail, name='detailCompany'),
+    ######################################################################
+
+    ######################################################################
     url(r'^employees/$', employee_index, name='index'),
     url(r'^employee/add/$', employee_create, name='create'),
     url(r'^(?P<e_slug>[\w-]+)/detail/$', employee_detail, name='detail'),
@@ -35,6 +40,14 @@ urlpatterns = [
 
     ######################################################################
     url(r'^others/$', other_index, name='indexO'),
+    ######################################################################
+
+    ######################################################################
+    url(r'^companyuser/$', companyuser_index, name='companyuser'),
+    ######################################################################
+
+    ######################################################################
+    url(r'^customeruser/$', customeruser_index, name='customeruser'),
     ######################################################################
 
     ######################################################################
@@ -52,6 +65,7 @@ urlpatterns = [
     url(r'^(?P<p_slug>[\w-]+)/updateP/$', project_update, name='updateP'),
     url(r'^(?P<p_slug>[\w-]+)/deleteP/$', project_delete, name='deleteP'),
     url(r'^projectP/$', projectC_index, name='projectP'),
+    url(r'^(?P<p_slug>[\w-]+)/deletePC/$', projectC_delete, name='deletePC'),
     #######################################################################
 
     #######################################################################
