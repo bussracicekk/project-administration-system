@@ -84,7 +84,6 @@ class SubtaskForm(forms.ModelForm):
             'iIssue',
             's_work',
         ]
-
 class WorkflowForm(forms.ModelForm):
 
     class Meta:
