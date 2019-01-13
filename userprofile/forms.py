@@ -1,4 +1,5 @@
 from django import forms
+from .models import Company
 from .models import Employee
 from .models import Department
 from .models import Project
@@ -7,6 +8,18 @@ from .models import Subtask
 from .models import WorkFlow
 from .models import Plan
 
+class CompanyForm(forms.ModelForm):
+    class Meta:
+        model = Company
+        fields = [
+            'user',
+            'c_id',
+            'c_name',
+            'c_email',
+            'c_address',
+            'c_phone',
+            'role',
+        ]
 
 class EmployeeForm(forms.ModelForm):
 
