@@ -82,6 +82,7 @@ class IssueForm(forms.ModelForm):
             'i_type',
             'i_extra',
             'i_content',
+            'cIssue',
             'pIssue',
             'i_work',
             'i_work2',
@@ -94,6 +95,7 @@ class SubtaskForm(forms.ModelForm):
         fields = [
             'sub_id',
             'sub_content',
+            'sCompany',
             'iIssue',
             's_work',
         ]
