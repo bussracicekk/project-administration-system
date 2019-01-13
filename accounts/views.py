@@ -20,7 +20,7 @@ def login_view(request):
         if usertype == "company":
             return redirect('app:homeC')
         if usertype == "customer":
-            return redirect('home')
+            return redirect('homeCu')
         if usertype == "admin":
             return redirect('app:homeA')
     return render(request, 'accounts/form.html', {'form': form, 'title': 'Log In'})
