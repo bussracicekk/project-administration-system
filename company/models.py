@@ -6,22 +6,67 @@ from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 
 ################################################################################
+class CompanyQuerySet(models.QuerySet):
+    def Companys(self):
+        return self.filter(role='Company')
+
+    def Customers(self):
+        return self.filter(role='Customer')
+#############################################################################
+
+#############################################################################
+class CompanyManager(models.Manager):
+     def get_queryset(self):
+         return super(CompanyManager, self).get_queryset().filter(active=True)
+###############################################################################
+
+###############################################################################
+class CustomerUser(models.Manager):
+    def get_queryset(self):
+        return super(CustomerUser, self).get_queryset().filter(role='Customer')
+    #eOther = models.ForeignKey(Employee, unique=True, primary_key=True, serialize=False, verbose_name='Employee')
+################################################################################
+
+################################################################################
+class CompanyUser(models.Manager):
+    def get_queryset(self):
+        return super(CompanyUser, self).get_queryset().filter(role='Company')
+################################################################################
+
 class Company(models.Model):
+    roles_choices = (
+        ("Customer", "Customer"),
+        ("Company", "Company"),
+    )
     user = models.OneToOneField(User)
+    c_id = models.AutoField(primary_key=True, verbose_name='Company ID')
     c_name = models.CharField(max_length=30, verbose_name='Company Name')
     c_email = models.EmailField(verbose_name='Company E-mail')
     c_address = RichTextField(verbose_name='Company Address')
     c_phone = models.CharField(max_length=20, verbose_name = 'Company Phone')
     c_password = models.CharField(max_length=6,  verbose_name='Company Password')
+    role = models.CharField(max_length=30, choices=roles_choices, default="Customer")
+    #c_slug = models.SlugField(unique=True, editable=False, max_length=130)
+    objects = models.Manager()
+    all_employees = CompanyManager()
+    Companys = CompanyUser()
+    Customers = CustomerUser()
 
     def __str__(self):
         return self.c_name
+
+    def get_company_url(self):
+        return reverse('app:detailCompany', kwargs={'c_id': self.c_id})
+
+    class Meta:
+        ordering = ['user','c_name']
 
     def create_profile(sender, **kwargs):
         if kwargs['created']:
             user_profile = Company.objects.create(user=kwargs['instance'])
 
     post_save.connect(create_profile, sender=User)
+#################################################################################
 
 #################################################################################
 class Department(models.Model):
@@ -147,7 +192,7 @@ class Employee(models.Model):
         return super(Employee, self).save(*args, **kwargs)
 
     class Meta:
-        ordering = ['eCompany', 'eDepartment', 'e_degree']
+        ordering = ['eCompany', 'eDepartment', '-e_degree']
 ###################################################################################
 
 ###################################################################################
@@ -178,6 +223,9 @@ class Project(models.Model):
 
     def get_deleteP_url(self):
         return reverse('app:deleteP', kwargs={'p_slug': self.p_slug})
+
+    def get_deletePC_url(self):
+        return reverse('app:deletePC', kwargs={'p_slug': self.p_slug})
 
     def get_unique_P_slug(self):
         p_slug = slugify(self.p_title.replace('ı', 'i'))
@@ -312,6 +360,7 @@ class WorkFlow(models.Model):
         ordering = ['w_id','w_type']
 
 ##########################################################################################
+
 
 ##########################################################################################
 class Report(models.Model):
