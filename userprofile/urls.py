@@ -24,6 +24,8 @@ urlpatterns = [
     ######################################################################
     url(r'^companys/$', company_index, name='indexC'),
     url(r'^(?P<c_id>\d+)/detailCompany/$', company_detail, name='detailCompany'),
+    url(r'^(?P<c_id>\d+)/updateCompany/$', company_update, name='updateCompany'),
+    url(r'^(?P<c_id>\d+)/deleteCompany/$', company_delete, name='deleteCompany'),
     ######################################################################
 
     ######################################################################
